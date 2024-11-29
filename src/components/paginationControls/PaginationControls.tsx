@@ -2,6 +2,7 @@ import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
 import { useNavigate } from 'react-router-dom';
+import { RoutePaths } from '../../routes/routePaths';
 
 export const NumberOfCurrencies = 10;
 
@@ -11,7 +12,7 @@ export const PaginationControls: React.FC<{
   const navigate = useNavigate();
 
   const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
-    navigate(`/cryptocurrency?page=${value}`);
+    navigate(`${RoutePaths.Main}?page=${value}`);
   };
 
   return (

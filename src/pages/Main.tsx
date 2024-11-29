@@ -21,7 +21,7 @@ export const Main: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        <CurrenciesList currencies={cryptoСurrenciesData} />
+        <CurrenciesList currencies={cryptoСurrenciesData} pageNum={page} />
         <PaginationControls currentPage={page} />
       </Container>
     </>

@@ -1,12 +1,21 @@
-import { AppBar, Toolbar } from '@mui/material';
+import { AppBar, Container } from '@mui/material';
 import { PopularCurrencies } from '../currency/popularCurrencies';
+import { PortfolioCurrencies } from '../currency/portfolioCurrencies';
 
 export const Header: React.FC = () => {
   return (
     <AppBar position="static">
-      <Toolbar sx={{ m: 'auto' }}>
+      <Container
+        sx={{
+          m: 'auto',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <PopularCurrencies />
-      </Toolbar>
+        <PortfolioCurrencies />
+      </Container>
     </AppBar>
   );
 };

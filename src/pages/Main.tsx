@@ -2,6 +2,8 @@ import { useLocation } from 'react-router-dom';
 import { PaginationControls } from '../components/paginationControls/PaginationControls';
 import { checkPageNum } from '../utils/checkPageNum';
 import { Container } from '@mui/material';
+import { CurrenciesList } from '../components/currency/CurrenciesList';
+import { cryptoСurrenciesData } from '../components/types/ApiTypes';
 
 export const Main: React.FC = () => {
   const location = useLocation();
@@ -19,7 +21,7 @@ export const Main: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        <h2>Main, Page: {page}</h2>
+        <CurrenciesList currencies={cryptoСurrenciesData} />
         <PaginationControls currentPage={page} />
       </Container>
     </>

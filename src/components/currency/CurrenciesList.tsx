@@ -25,7 +25,7 @@ export const CurrenciesList: React.FC<{
   pageNum: number;
 }> = ({ currencies, pageNum }) => {
   const renderTableCellHeaders = tableCellHeaders.map((cellHeader, index) => (
-    <TableCell align="right" key={index} sx={{ fontWeight: 600 }}>
+    <TableCell key={index} sx={{ fontWeight: 600 }}>
       {cellHeader}
     </TableCell>
   ));

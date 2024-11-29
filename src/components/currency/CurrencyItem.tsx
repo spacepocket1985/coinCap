@@ -25,7 +25,7 @@ export const CurrencyItem: React.FC<{
       <TableCell
         sx={{ color: currencyChangeColor }}
       >{`${currency.changePercent24Hr}$`}</TableCell>
-      <TableCell>{`${(currency.marketCapUsd / 1e9).toFixed(1)}$`}</TableCell>
+      <TableCell>{`${(currency.marketCapUsd / 1e9).toFixed(1)}bn$`}</TableCell>
       <TableCell>{`${currency.priceUsd}$`}</TableCell>
       <TableCell>
         <IconButton sx={{ p: 0.3 }}>

@@ -4,6 +4,7 @@ import { checkPageNum } from '../utils/checkPageNum';
 import { Container } from '@mui/material';
 import { CurrenciesList } from '../components/currency/CurrenciesList';
 import { useGetCurrenciesListQuery } from '../store/slices/apiSlice';
+import { Spinner } from '../components/spinner/Spinner';
 
 export const Main: React.FC = () => {
   const location = useLocation();
@@ -14,9 +15,15 @@ export const Main: React.FC = () => {
   const queryOffset = page === 1 ? 0 : page * 10;
   const { data: currencies, isFetching } =
     useGetCurrenciesListQuery(queryOffset);
-  console.log(currencies);
 
-  if (isFetching) return <div>Loading</div>;
+  const contentOrSpinner = isFetching ? (
+    <Spinner />
+  ) : (
+    <>  
+      <CurrenciesList pageNum={page} currencies={currencies!.data} />
+      <PaginationControls currentPage={page} />
+    </>
+  );
 
   return (
     <>
@@ -28,8 +35,7 @@ export const Main: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        <CurrenciesList pageNum={page} currencies={currencies!.data} />
-        <PaginationControls currentPage={page} />
+        {contentOrSpinner}
       </Container>
     </>
   );

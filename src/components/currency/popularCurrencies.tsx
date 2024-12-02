@@ -16,7 +16,7 @@ export const PopularCurrencies: React.FC = () => {
       >
         {currency.name}
       </Typography>
-      <Typography variant="caption">{`${currency.priceUsd}$`}</Typography>
+      <Typography variant="caption">{`${Number(currency.priceUsd).toFixed(3)}$`}</Typography>
     </Stack>
   ));
   const contentOrSpinner = isFetching ? <Spinner /> : renderCurrencies;

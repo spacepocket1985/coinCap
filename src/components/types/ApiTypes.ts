@@ -13,6 +13,10 @@ export type CryptoCurrencyType = {
   explorer: string;
 };
 
-export type ApiResponse = {
+export type ApiResponseCurrencies = {
   data: CryptoCurrencyType[];
+};
+
+export type ApiResponseCurrency = {
+  data: CryptoCurrencyType;
 };

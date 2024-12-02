@@ -1,9 +1,9 @@
 export type CryptoCurrencyType = {
   id: string;
-  rank: number;
+  rank: string;
   symbol: string;
   name: string;
-  supply: number;
+  supply: string;
   maxSupply: string;
   marketCapUsd: string;
   volumeUsd24Hr: string;

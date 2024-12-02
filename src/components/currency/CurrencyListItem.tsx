@@ -4,7 +4,7 @@ import { CryptoCurrencyType } from '../types/ApiTypes';
 import { useNavigate } from 'react-router-dom';
 import { RoutePaths } from '../../routes/routePaths';
 
-export const CurrencyItem: React.FC<{
+export const CurrencyListItem: React.FC<{
   currency: CryptoCurrencyType;
   itemNum: number;
 }> = ({ currency, itemNum }) => {
@@ -26,12 +26,12 @@ export const CurrencyItem: React.FC<{
       <TableCell>{itemNum}</TableCell>
       <TableCell sx={{ color: '#1976d2' }}>{currency.symbol}</TableCell>
       <TableCell>{currency.name}</TableCell>
-      <TableCell>{Number(currency.vwap24Hr).toFixed(3)}</TableCell>
+      <TableCell>{currency.vwap24Hr}</TableCell>
       <TableCell sx={{ color: currencyChangeColor }}>
-        {Number(currency.changePercent24Hr).toFixed(3)}
+        {currency.changePercent24Hr}
       </TableCell>
-      <TableCell>{(Number(currency.marketCapUsd) / 1e9).toFixed(3)}</TableCell>
-      <TableCell>{Number(currency.priceUsd).toFixed(3)}</TableCell>
+      <TableCell>{currency.marketCapUsd}</TableCell>
+      <TableCell>{currency.priceUsd}</TableCell>
       <TableCell>
         <IconButton sx={{ p: 0.3 }}>
           <AddCircleIcon color="primary" />

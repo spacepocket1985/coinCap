@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useGetCurrencyQuery } from '../store/slices/apiSlice';
 import { Container } from '@mui/material';
 import { Spinner } from '../components/spinner/Spinner';
+import { CurrencyPageItem } from '../components/currency/CurrencyPageItem';
 
 export const Currency: React.FC = () => {
   const { currencyId } = useParams();
@@ -12,11 +13,7 @@ export const Currency: React.FC = () => {
   const contentOrSpinner = isFetchingCurency ? (
     <Spinner />
   ) : (
-    <>
-      <div>{curency!.data.name}</div>
-      <div>{curency!.data.maxSupply}</div>
-      <div>{curency!.data.priceUsd}</div>
-    </>
+    <CurrencyPageItem currency={curency!.data} />
   );
   return (
     <Container

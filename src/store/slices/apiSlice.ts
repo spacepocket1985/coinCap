@@ -11,8 +11,13 @@ export const coinCapApi = createApi({
   reducerPath: 'cryptoCurrencyApi',
   baseQuery: fetchBaseQuery({ baseUrl: BaseUrl }),
   endpoints: (builder) => ({
-    getCurrenciesList: builder.query<ApiResponse, number>({
-      query: (offset) => ({ url: `?limit=${BaseLimit}&offset=${offset}` }),
+    getCurrenciesList: builder.query<
+      ApiResponse,
+      { limit?: number; offset: number }
+    >({
+      query: ({ limit, offset }) => ({
+        url: `?limit=${limit || BaseLimit}&offset=${offset}`,
+      }),
       transformResponse: (response: ApiResponse) => {
         const transformedCurrencies: CryptoCurrencyType[] = response.data.map(
           (currency) => ({

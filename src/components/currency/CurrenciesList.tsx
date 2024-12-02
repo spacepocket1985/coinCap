@@ -8,7 +8,6 @@ import Paper from '@mui/material/Paper';
 
 import { CurrencyItem } from './CurrencyItem';
 
-import { Typography } from '@mui/material';
 import { CryptoCurrencyType } from '../types/ApiTypes';
 
 const tableCellHeaders = [
@@ -26,15 +25,6 @@ export const CurrenciesList: React.FC<{
   currencies: CryptoCurrencyType[];
   pageNum: number;
 }> = ({ pageNum, currencies }) => {
-  console.log(currencies);
-
-  if (!currencies || currencies.length === 0)
-    return (
-      <Typography variant="h5" component={'h5'}>
-        Unfortunately. No data available.
-      </Typography>
-    );
-
   const renderTableCellHeaders = tableCellHeaders.map((cellHeader, index) => (
     <TableCell key={index} sx={{ fontWeight: 600 }}>
       {cellHeader}

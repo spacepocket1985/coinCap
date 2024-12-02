@@ -13,14 +13,15 @@ export const Main: React.FC = () => {
   const page = checkPageNum(pageParam);
 
   const queryOffset = page === 1 ? 0 : page * 10;
-  const { data: currencies, isFetching } =
-    useGetCurrenciesListQuery(queryOffset);
+  const { data: currencies, isFetching } = useGetCurrenciesListQuery({
+    offset: queryOffset,
+  });
 
   const contentOrSpinner = isFetching ? (
     <Spinner />
   ) : (
     <>
-      <CurrenciesList pageNum={page} currencies={currencies!.data} />
+      <CurrenciesList pageNum={page} currencies={currencies?.data || []} />
       <PaginationControls currentPage={page} />
     </>
   );

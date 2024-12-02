@@ -1,157 +1,18 @@
-export type CryptoСurrencyType = {
+export type CryptoCurrencyType = {
   id: string;
   rank: number;
   symbol: string;
   name: string;
   supply: number;
-  maxSupply: number;
-  marketCapUsd: number;
-  volumeUsd24Hr: number;
-  priceUsd: number;
-  changePercent24Hr: number;
-  vwap24Hr: number;
+  maxSupply: string;
+  marketCapUsd: string;
+  volumeUsd24Hr: string;
+  priceUsd: string;
+  changePercent24Hr: string;
+  vwap24Hr: string;
   explorer: string;
 };
 
-export const cryptoСurrenciesData: CryptoСurrencyType[] = [
-  {
-    id: 'bitcoin',
-    rank: 1,
-    symbol: 'BTC',
-    name: 'Bitcoin',
-    supply: 19788862,
-    maxSupply: 21000000,
-    marketCapUsd: 1896421305051.678,
-    volumeUsd24Hr: 12692395813.216678,
-    priceUsd: 95832.76,
-    changePercent24Hr: 0.32,
-    vwap24Hr: 95566.11,
-    explorer: 'https://blockchain.info/',
-  },
-  {
-    id: 'ethereum',
-    rank: 2,
-    symbol: 'ETH',
-    name: 'Ethereum',
-    supply: 120000000,
-    maxSupply: 120000000,
-    marketCapUsd: 2000000000000,
-    volumeUsd24Hr: 30000000000,
-    priceUsd: 1600.25,
-    changePercent24Hr: 1.12,
-    vwap24Hr: 1550.7,
-    explorer: 'https://etherscan.io/',
-  },
-  {
-    id: 'tether',
-    rank: 3,
-    symbol: 'USDT',
-    name: 'Tether',
-    supply: 68000000000,
-    maxSupply: Infinity,
-    marketCapUsd: 70000000000,
-    volumeUsd24Hr: 35000000000,
-    priceUsd: 1.0,
-    changePercent24Hr: 0.0,
-    vwap24Hr: 1.0,
-    explorer: 'https://tether.to/',
-  },
-  {
-    id: 'binancecoin',
-    rank: 4,
-    symbol: 'BNB',
-    name: 'Binance Coin',
-    supply: 170000000,
-    maxSupply: 170000000,
-    marketCapUsd: 350000000000,
-    volumeUsd24Hr: 1500000000,
-    priceUsd: 205.76,
-    changePercent24Hr: -0.52,
-    vwap24Hr: 201.5,
-    explorer: 'https://bscscan.com/',
-  },
-  {
-    id: 'cardano',
-    rank: 5,
-    symbol: 'ADA',
-    name: 'Cardano',
-    supply: 32000000000,
-    maxSupply: 45000000000,
-    marketCapUsd: 50000000000,
-    volumeUsd24Hr: 600000000,
-    priceUsd: 1.56,
-    changePercent24Hr: 2.3,
-    vwap24Hr: 1.54,
-    explorer: 'https://cardano.org/',
-  },
-  {
-    id: 'solana',
-    rank: 6,
-    symbol: 'SOL',
-    name: 'Solana',
-    supply: 500000000,
-    maxSupply: 800000000,
-    marketCapUsd: 400000000000,
-    volumeUsd24Hr: 2000000000,
-    priceUsd: 150.0,
-    changePercent24Hr: 3.45,
-    vwap24Hr: 148.6,
-    explorer: 'https://explorer.solana.com/',
-  },
-  {
-    id: 'polkadot',
-    rank: 7,
-    symbol: 'DOT',
-    name: 'Polkadot',
-    supply: 1000000000,
-    maxSupply: 1100000000,
-    marketCapUsd: 230000000000,
-    volumeUsd24Hr: 2500000000,
-    priceUsd: 23.0,
-    changePercent24Hr: 1.0,
-    vwap24Hr: 22.0,
-    explorer: 'https://polkadot.network/',
-  },
-  {
-    id: 'ripple',
-    rank: 8,
-    symbol: 'XRP',
-    name: 'Ripple',
-    supply: 100000000000,
-    maxSupply: 100000000000,
-    marketCapUsd: 76000000000,
-    volumeUsd24Hr: 1300000000,
-    priceUsd: 0.76,
-    changePercent24Hr: 0.25,
-    vwap24Hr: 0.78,
-    explorer: 'https://xrpscan.com/',
-  },
-  {
-    id: 'litecoin',
-    rank: 9,
-    symbol: 'LTC',
-    name: 'Litecoin',
-    supply: 84000000,
-    maxSupply: 84000000,
-    marketCapUsd: 100000000000,
-    volumeUsd24Hr: 3500000000,
-    priceUsd: 120.0,
-    changePercent24Hr: -1.0,
-    vwap24Hr: 122.0,
-    explorer: 'https://blockchair.com/litecoin/',
-  },
-  {
-    id: 'chainlink',
-    rank: 10,
-    symbol: 'LINK',
-    name: 'Chainlink',
-    supply: 1000000000,
-    maxSupply: 1000000000,
-    marketCapUsd: 17000000000,
-    volumeUsd24Hr: 1200000000,
-    priceUsd: 17.0,
-    changePercent24Hr: 0.5,
-    vwap24Hr: 16.5,
-    explorer: 'https://chain.link/',
-  },
-];
+export type ApiResponse = {
+  data: CryptoCurrencyType[];
+};

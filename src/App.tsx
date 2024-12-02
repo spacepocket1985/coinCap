@@ -7,7 +7,12 @@ import '@fontsource/roboto/400.css';
 
 const App: FC = () => {
   return (
-    <Router>
+    <Router
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <Header />
       <AppRouter />
     </Router>

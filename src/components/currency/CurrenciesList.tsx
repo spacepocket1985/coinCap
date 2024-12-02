@@ -6,24 +6,25 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { CryptoСurrencyType } from '../types/ApiTypes';
 import { CurrencyItem } from './CurrencyItem';
+
+import { CryptoCurrencyType } from '../types/ApiTypes';
 
 const tableCellHeaders = [
   '№',
   '',
   'Name',
-  'VWAP(24Hr)',
-  'Change (24Hr)',
-  'Market Cap',
-  'Price',
+  'VWAP(24Hr), $',
+  'Change (24Hr), $',
+  'Market Cap, bn$',
+  'Price, $',
   '',
 ];
 
 export const CurrenciesList: React.FC<{
-  currencies: CryptoСurrencyType[];
+  currencies: CryptoCurrencyType[];
   pageNum: number;
-}> = ({ currencies, pageNum }) => {
+}> = ({ pageNum, currencies }) => {
   const renderTableCellHeaders = tableCellHeaders.map((cellHeader, index) => (
     <TableCell key={index} sx={{ fontWeight: 600 }}>
       {cellHeader}

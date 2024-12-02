@@ -1,24 +1,25 @@
 import { Stack, Typography } from '@mui/material';
-
-const Currencies = [
-  { currency: 'Bitcoin', value: 1500 },
-  { currency: 'Ethereum', value: 1000 },
-  { currency: 'Tether', value: 500 },
-];
+import { useGetCurrenciesListQuery } from '../../store/slices/apiSlice';
+import { Spinner } from '../spinner/Spinner';
 
 export const PopularCurrencies: React.FC = () => {
-  const renderCurrencies = Currencies.map((item, index) => (
+  const { data: currencies, isFetching } = useGetCurrenciesListQuery({
+    limit: 3,
+    offset: 0,
+  });
+  const renderCurrencies = (currencies?.data || []).map((currency, index) => (
     <Stack direction={'column'} key={index} sx={{ pb: 1 }}>
       <Typography
         variant="subtitle1"
         component={'h5'}
         sx={{ color: '#dad1d1' }}
       >
-        {item.currency}
+        {currency.name}
       </Typography>
-      <Typography variant="caption">{item.value}</Typography>
+      <Typography variant="caption">{`${currency.priceUsd}$`}</Typography>
     </Stack>
   ));
+  const contentOrSpinner = isFetching ? <Spinner /> : renderCurrencies;
   return (
     <Stack
       direction="column"
@@ -30,7 +31,7 @@ export const PopularCurrencies: React.FC = () => {
         Popular crypto currencies
       </Typography>
       <Stack direction={'row'} spacing={2} justifyContent={'space-between'}>
-        {renderCurrencies}
+        {contentOrSpinner}
       </Stack>
     </Stack>
   );

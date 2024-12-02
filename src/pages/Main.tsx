@@ -19,7 +19,7 @@ export const Main: React.FC = () => {
   const contentOrSpinner = isFetching ? (
     <Spinner />
   ) : (
-    <>  
+    <>
       <CurrenciesList pageNum={page} currencies={currencies!.data} />
       <PaginationControls currentPage={page} />
     </>

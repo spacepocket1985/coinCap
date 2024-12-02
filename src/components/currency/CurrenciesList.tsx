@@ -7,24 +7,34 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import { CurrencyItem } from './CurrencyItem';
-import { CryptoСurrencyType } from '../types/ApiTypes';
+
+import { Typography } from '@mui/material';
+import { CryptoCurrencyType } from '../types/ApiTypes';
 
 const tableCellHeaders = [
   '№',
   '',
   'Name',
-  'VWAP(24Hr)',
-  'Change (24Hr)',
-  'Market Cap',
-  'Price',
+  'VWAP(24Hr), $',
+  'Change (24Hr), $',
+  'Market Cap, bn$',
+  'Price, $',
   '',
 ];
 
 export const CurrenciesList: React.FC<{
-  currencies: CryptoСurrencyType[];
+  currencies: CryptoCurrencyType[];
   pageNum: number;
 }> = ({ pageNum, currencies }) => {
   console.log(currencies);
+
+  if (!currencies || currencies.length === 0)
+    return (
+      <Typography variant="h5" component={'h5'}>
+        Unfortunately. No data available.
+      </Typography>
+    );
+
   const renderTableCellHeaders = tableCellHeaders.map((cellHeader, index) => (
     <TableCell key={index} sx={{ fontWeight: 600 }}>
       {cellHeader}
@@ -39,7 +49,7 @@ export const CurrenciesList: React.FC<{
           </TableRow>
         </TableHead>
         <TableBody>
-          {currencies!.map((currency, index) => (
+          {currencies.map((currency, index) => (
             <CurrencyItem
               currency={currency}
               itemNum={pageNum + index}

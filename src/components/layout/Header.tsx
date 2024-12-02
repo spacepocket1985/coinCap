@@ -2,7 +2,6 @@ import { AppBar, Container } from '@mui/material';
 import { PortfolioCurrencies } from '../currency/portfolioCurrencies';
 import { PopularCurrencies } from '../currency/popularCurrencies';
 
-
 export const Header: React.FC = () => {
   return (
     <AppBar position="static">

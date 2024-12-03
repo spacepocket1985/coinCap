@@ -1,9 +1,9 @@
 export type CryptoCurrencyType = {
   id: string;
-  rank: number;
+  rank: string;
   symbol: string;
   name: string;
-  supply: number;
+  supply: string;
   maxSupply: string;
   marketCapUsd: string;
   volumeUsd24Hr: string;
@@ -13,6 +13,20 @@ export type CryptoCurrencyType = {
   explorer: string;
 };
 
-export type ApiResponse = {
+export type CurrencyHistory = {
+  priceUsd: string;
+  time: number;
+  date: string;
+};
+
+export type ApiResponseCurrencies = {
   data: CryptoCurrencyType[];
+};
+
+export type ApiResponseCurrency = {
+  data: CryptoCurrencyType;
+};
+
+export type ApiResponseCurrencyHistory = {
+  data: CurrencyHistory[];
 };

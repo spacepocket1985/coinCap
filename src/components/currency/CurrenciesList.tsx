@@ -6,7 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { CurrencyItem } from './CurrencyItem';
+import { CurrencyListItem } from './CurrencyListItem';
 
 import { CryptoCurrencyType } from '../types/ApiTypes';
 
@@ -40,7 +40,7 @@ export const CurrenciesList: React.FC<{
         </TableHead>
         <TableBody>
           {currencies.map((currency, index) => (
-            <CurrencyItem
+            <CurrencyListItem
               currency={currency}
               itemNum={pageNum + index}
               key={currency.id}

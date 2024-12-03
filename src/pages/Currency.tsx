@@ -1,6 +1,38 @@
 import { useParams } from 'react-router-dom';
+import { useGetCurrencyQuery } from '../store/slices/apiSlice';
+import { Container } from '@mui/material';
+import { Spinner } from '../components/spinner/Spinner';
+import { CurrencyPageItem } from '../components/currency/CurrencyPageItem';
+import { CurrencyAddForm } from '../components/currency/CurrencyAddForm';
+import { CurrencyHistory } from '../components/currency/CurrencyHistory';
+import { BtnGoMain, BtnGoMainType } from '../components/btnGoMain/BtnGoMain';
 
 export const Currency: React.FC = () => {
   const { currencyId } = useParams();
-  return <h2>{`Currency - ${currencyId}`}</h2>;
+  const { data: currency, isFetching: isFetchingCurency } = useGetCurrencyQuery(
+    String(currencyId)
+  );
+
+  const contentOrSpinner = isFetchingCurency ? (
+    <Spinner />
+  ) : (
+    <>
+      <CurrencyAddForm currency={currency!.data} />
+      <CurrencyPageItem currency={currency!.data} />
+      <CurrencyHistory currencyId={currency!.data.id} />
+      <BtnGoMain type={BtnGoMainType.Button}>{'go back'}</BtnGoMain>
+    </>
+  );
+  return (
+    <Container
+      sx={{
+        mt: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      {contentOrSpinner}
+    </Container>
+  );
 };

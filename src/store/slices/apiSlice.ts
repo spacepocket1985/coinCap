@@ -2,8 +2,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
   ApiResponseCurrencies,
   ApiResponseCurrency,
+  ApiResponseCurrencyHistory,
   CryptoCurrencyType,
 } from '../../components/types/ApiTypes';
+import { currentDateMs, sevenDaysAgoMs } from '../../utils/getUnixTimestamp';
 
 const BaseUrl = 'https://api.coincap.io/v2/assets';
 const BaseLimit = 10;
@@ -32,6 +34,19 @@ export const coinCapApi = createApi({
         return { data: transformCurrency(response.data) };
       },
     }),
+    getCurrencyHistory: builder.query<ApiResponseCurrencyHistory, string>({
+      query: (id) => ({
+        url: `${id}/history?interval=d1&start=${currentDateMs}&end=${sevenDaysAgoMs} `,
+      }),
+      transformResponse: (response: ApiResponseCurrencyHistory) => {
+        const transformData = response.data.map((item) => ({
+          ...item,
+          priceUsd: Number(item.priceUsd).toFixed(3),
+          date: item.date.slice(0, 10),
+        }));
+        return { data: transformData };
+      },
+    }),
   }),
 });
 
@@ -47,4 +62,8 @@ const transformCurrency = (currency: CryptoCurrencyType) => ({
   volumeUsd24Hr: Number(currency.volumeUsd24Hr).toFixed(3),
 });
 
-export const { useGetCurrenciesListQuery, useGetCurrencyQuery } = coinCapApi;
+export const {
+  useGetCurrenciesListQuery,
+  useGetCurrencyQuery,
+  useGetCurrencyHistoryQuery,
+} = coinCapApi;

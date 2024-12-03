@@ -13,10 +13,20 @@ export type CryptoCurrencyType = {
   explorer: string;
 };
 
+export type CurrencyHistory = {
+  priceUsd: string;
+  time: number;
+  date: string;
+};
+
 export type ApiResponseCurrencies = {
   data: CryptoCurrencyType[];
 };
 
 export type ApiResponseCurrency = {
   data: CryptoCurrencyType;
+};
+
+export type ApiResponseCurrencyHistory = {
+  data: CurrencyHistory[];
 };

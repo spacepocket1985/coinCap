@@ -53,9 +53,13 @@ export const CurrencyPageItem: React.FC<{ currency: CryptoCurrencyType }> = ({
     <TableContainer component={Paper} sx={{ mb: 3 }}>
       <Table sx={{ minWidth: 500 }} size="small" aria-label="a dense table">
         <TableHead>
-          <TableRow sx={{ bgcolor: '#ddd7d7' }}>
-            <TableCell sx={{ fontSize: 16 }}>{'Information'}</TableCell>
-            <TableCell sx={{ fontSize: 16 }}>{'Currency data'}</TableCell>
+          <TableRow sx={{ bgcolor: '#1976d2' }}>
+            <TableCell sx={{ fontSize: 16, color: '#fff' }}>
+              {'Information'}
+            </TableCell>
+            <TableCell sx={{ fontSize: 16, color: '#fff' }}>
+              {'Currency data'}
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>{renderCells}</TableBody>

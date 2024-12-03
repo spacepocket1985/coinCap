@@ -4,6 +4,7 @@ import { Container } from '@mui/material';
 import { Spinner } from '../components/spinner/Spinner';
 import { CurrencyPageItem } from '../components/currency/CurrencyPageItem';
 import { CurrencyAddForm } from '../components/currency/CurrencyAddForm';
+import { CurrencyHistory } from '../components/currency/CurrencyHistory';
 
 export const Currency: React.FC = () => {
   const { currencyId } = useParams();
@@ -17,6 +18,7 @@ export const Currency: React.FC = () => {
     <>
       <CurrencyAddForm currency={currency!.data} />
       <CurrencyPageItem currency={currency!.data} />
+      <CurrencyHistory currencyId={currency!.data.id} />
     </>
   );
   return (

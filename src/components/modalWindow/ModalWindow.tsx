@@ -24,14 +24,16 @@ export enum ModalIcon {
 }
 
 type ModalWindowPropsType = {
-  children: (handleClose: () => void) => React.ReactNode;
+  children?: (handleClose: () => void) => React.ReactNode;
   iconType: ModalIcon;
   iconLabel?: string;
+  iconColor?: string;
 };
 
 export const ModalWindow: React.FC<ModalWindowPropsType> = ({
   children,
   iconType,
+  iconColor,
   iconLabel,
 }) => {
   const [open, setOpen] = React.useState(false);
@@ -54,7 +56,7 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = ({
       <IconButton
         onClick={handleToggle}
         style={{
-          color: '#1976d2',
+          color: iconColor ? iconColor : '#1976d2',
           marginRight: '5px',
         }}
       >
@@ -64,7 +66,7 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = ({
         </Typography>
       </IconButton>
       <Modal open={open} onClose={handleToggle}>
-        <Box sx={style}>{children(handleToggle)}</Box>
+        <Box sx={style}>{children!(handleToggle)}</Box>
       </Modal>
     </>
   );

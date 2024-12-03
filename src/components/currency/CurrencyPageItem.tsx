@@ -1,14 +1,6 @@
-import {
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableCell,
-  Link,
-} from '@mui/material';
+import { TableRow, TableCell, Link } from '@mui/material';
 import { CryptoCurrencyType } from '../types/ApiTypes';
+import { TableData } from '../ui/TableData';
 
 const cryptoCurrency: CryptoCurrencyType = {
   id: 'Unique identifier',
@@ -49,21 +41,9 @@ export const CurrencyPageItem: React.FC<{ currency: CryptoCurrencyType }> = ({
     )
   );
 
+  const tableCellHeaders = ['Information', 'Currency data'];
+
   return (
-    <TableContainer component={Paper} sx={{ mb: 3 }}>
-      <Table sx={{ minWidth: 500 }} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow sx={{ bgcolor: '#1976d2' }}>
-            <TableCell sx={{ fontSize: 16, color: '#fff' }}>
-              {'Information'}
-            </TableCell>
-            <TableCell sx={{ fontSize: 16, color: '#fff' }}>
-              {'Currency data'}
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{renderCells}</TableBody>
-      </Table>
-    </TableContainer>
+    <TableData tableCellHeaders={tableCellHeaders}>{renderCells}</TableData>
   );
 };

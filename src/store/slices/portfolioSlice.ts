@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type PortfolioCurrencyType = {
+export type PortfolioCurrencyType = {
   id: string;
   name: string;
   priceUsd: number;
@@ -44,7 +44,7 @@ const portfolioSlice = createSlice({
       );
     },
     deletePortfolioCurrency: (state, action: PayloadAction<string>) => {
-      state.portfolioCurrency.filter(
+      state.portfolioCurrency = state.portfolioCurrency.filter(
         (currency) => currency.id !== action.payload
       );
       state.portfolioTotal = state.portfolioCurrency.reduce(
@@ -56,3 +56,6 @@ const portfolioSlice = createSlice({
 });
 
 export default portfolioSlice.reducer;
+
+export const { deletePortfolioCurrency, updatePortfolioCurrency } =
+  portfolioSlice.actions;

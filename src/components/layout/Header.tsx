@@ -1,5 +1,5 @@
 import { AppBar, Container } from '@mui/material';
-import { PortfolioCurrencies } from '../currency/portfolioCurrencies';
+import { PortfolioCurrencies } from '../currency/PortfolioCurrencies';
 import { PopularCurrencies } from '../currency/popularCurrencies';
 
 export const Header: React.FC = () => {

@@ -3,17 +3,21 @@ import { useGetCurrencyQuery } from '../store/slices/apiSlice';
 import { Container } from '@mui/material';
 import { Spinner } from '../components/spinner/Spinner';
 import { CurrencyPageItem } from '../components/currency/CurrencyPageItem';
+import { CurrencyAddForm } from '../components/currency/CurrencyAddForm';
 
 export const Currency: React.FC = () => {
   const { currencyId } = useParams();
-  const { data: curency, isFetching: isFetchingCurency } = useGetCurrencyQuery(
+  const { data: currency, isFetching: isFetchingCurency } = useGetCurrencyQuery(
     String(currencyId)
   );
 
   const contentOrSpinner = isFetchingCurency ? (
     <Spinner />
   ) : (
-    <CurrencyPageItem currency={curency!.data} />
+    <>
+      <CurrencyAddForm currency={currency!.data} />
+      <CurrencyPageItem currency={currency!.data} />
+    </>
   );
   return (
     <Container

@@ -66,7 +66,7 @@ export const CurrencyAddForm: React.FC<{
         <Button
           variant="contained"
           color="primary"
-          type='submit'
+          type="submit"
           sx={{ ml: 1, p: 0.9 }}
           disabled={parseFloat(count) <= 0}
         >

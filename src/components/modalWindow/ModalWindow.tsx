@@ -43,7 +43,7 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = ({
       case ModalIcon.Add:
         return <AddCircleIcon />;
       case ModalIcon.Partfolio:
-        return <WorkOutlineIcon fontSize="large"/>;
+        return <WorkOutlineIcon fontSize="large" />;
       default:
         return null;
     }

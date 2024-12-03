@@ -1,6 +1,6 @@
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
-
 import { Stack, Typography } from '@mui/material';
+import { BtnGoMain, BtnGoMainType } from '../btnGoMain/BtnGoMain';
 
 export const PortfolioCurrencies: React.FC = () => {
   return (
@@ -16,6 +16,7 @@ export const PortfolioCurrencies: React.FC = () => {
         </Typography>
         <Typography variant="subtitle1">{'5000 USD'}</Typography>
       </Stack>
+      <BtnGoMain type={BtnGoMainType.Icon} />
     </Stack>
   );
 };

@@ -5,13 +5,26 @@ import { useState } from 'react';
 export const CurrencyAddForm: React.FC<{ currency: CryptoCurrencyType }> = ({
   currency,
 }) => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState<string>('0');
+
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    if (value === '' || value.length === 1 || value[0] !== '0') {
-      setCount(Number(value));
+
+    if (value === '' || isFinite(Number(value))) {
+      if (value.split('.').length <= 2) {
+        setCount(value);
+      }
     }
   };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const numericValue = parseFloat(count);
+    if (numericValue > 0) {
+      console.log(`Purchasing ${numericValue} of ${currency.name}`);
+    }
+  };
+
   return (
     <>
       <Stack
@@ -31,12 +44,18 @@ export const CurrencyAddForm: React.FC<{ currency: CryptoCurrencyType }> = ({
           {currency!.name}
         </Typography>
       </Stack>
-      <Box component="form" noValidate autoComplete="off" sx={{ mb: 2 }}>
+      <Box
+        component="form"
+        noValidate
+        autoComplete="off"
+        sx={{ mb: 2 }}
+        onSubmit={handleSubmit}
+      >
         <TextField
           required
-          id="outlined-cout"
+          id="outlined-count"
           label="Enter quantity"
-          type="number"
+          type="text"
           margin="none"
           size="small"
           value={count}
@@ -46,7 +65,7 @@ export const CurrencyAddForm: React.FC<{ currency: CryptoCurrencyType }> = ({
           variant="contained"
           color="primary"
           sx={{ ml: 1, p: 0.9 }}
-          disabled={count <= 0}
+          disabled={parseFloat(count) <= 0}
         >
           {'Buy'}
         </Button>

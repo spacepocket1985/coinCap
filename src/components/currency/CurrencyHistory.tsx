@@ -42,9 +42,11 @@ export const CurrencyHistory: React.FC<{ currencyId: string }> = ({
   return (
     <>
       <Typography
+        component={'div'}
+        variant="subtitle1"
         sx={{
           mb: 1,
-          p: 0.5,
+          p: 0.6,
           bgcolor: '#1976d2',
           color: '#fff',
           mr: 'auto',

@@ -5,6 +5,7 @@ import { Spinner } from '../components/spinner/Spinner';
 import { CurrencyPageItem } from '../components/currency/CurrencyPageItem';
 import { CurrencyAddForm } from '../components/currency/CurrencyAddForm';
 import { CurrencyHistory } from '../components/currency/CurrencyHistory';
+import { BtnGoMain, BtnGoMainType } from '../components/btnGoMain/BtnGoMain';
 
 export const Currency: React.FC = () => {
   const { currencyId } = useParams();
@@ -19,6 +20,7 @@ export const Currency: React.FC = () => {
       <CurrencyAddForm currency={currency!.data} />
       <CurrencyPageItem currency={currency!.data} />
       <CurrencyHistory currencyId={currency!.data.id} />
+      <BtnGoMain type={BtnGoMainType.Button}>{'go back'}</BtnGoMain>
     </>
   );
   return (

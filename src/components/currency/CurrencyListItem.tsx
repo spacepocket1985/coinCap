@@ -1,8 +1,10 @@
-import { IconButton, TableCell, TableRow } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { TableCell, TableRow } from '@mui/material';
+
 import { CryptoCurrencyType } from '../types/ApiTypes';
 import { useNavigate } from 'react-router-dom';
 import { RoutePaths } from '../../routes/routePaths';
+import { ModalIcon, ModalWindow } from '../modalWindow/ModalWindow';
+import { CurrencyAddForm } from './CurrencyAddForm';
 
 export const CurrencyListItem: React.FC<{
   currency: CryptoCurrencyType;
@@ -32,10 +34,16 @@ export const CurrencyListItem: React.FC<{
       </TableCell>
       <TableCell>{currency.marketCapUsd}</TableCell>
       <TableCell>{currency.priceUsd}</TableCell>
-      <TableCell>
-        <IconButton sx={{ p: 0.3 }}>
-          <AddCircleIcon color="primary" />
-        </IconButton>
+      <TableCell
+        onClick={(event) => {
+          event.stopPropagation();
+        }}
+      >
+        <ModalWindow iconType={ModalIcon.Add}>
+          {(handleClose) => (
+            <CurrencyAddForm handleClose={handleClose} currency={currency} />
+          )}
+        </ModalWindow>
       </TableCell>
     </TableRow>
   );

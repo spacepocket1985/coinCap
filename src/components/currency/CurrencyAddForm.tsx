@@ -2,10 +2,11 @@ import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import { CryptoCurrencyType } from '../types/ApiTypes';
 import { useState } from 'react';
 
-export const CurrencyAddForm: React.FC<{ currency: CryptoCurrencyType }> = ({
-  currency,
-}) => {
-  const [count, setCount] = useState<string>('0');
+export const CurrencyAddForm: React.FC<{
+  currency: CryptoCurrencyType;
+  handleClose: () => void;
+}> = ({ currency, handleClose }) => {
+  const [count, setCount] = useState<string>('');
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
@@ -22,6 +23,7 @@ export const CurrencyAddForm: React.FC<{ currency: CryptoCurrencyType }> = ({
     const numericValue = parseFloat(count);
     if (numericValue > 0) {
       console.log(`Purchasing ${numericValue} of ${currency.name}`);
+      handleClose();
     }
   };
 
@@ -64,6 +66,7 @@ export const CurrencyAddForm: React.FC<{ currency: CryptoCurrencyType }> = ({
         <Button
           variant="contained"
           color="primary"
+          type='submit'
           sx={{ ml: 1, p: 0.9 }}
           disabled={parseFloat(count) <= 0}
         >

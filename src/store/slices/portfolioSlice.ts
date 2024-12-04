@@ -48,7 +48,7 @@ const portfolioSlice = createSlice({
       );
       state.portfolioTotal = getTotal(state.portfolioCurrency);
     },
-    portfolioReload: (
+    reloadPortfolio: (
       state,
       action: PayloadAction<PortfolioCurrencyType[]>
     ) => {
@@ -63,7 +63,7 @@ export default portfolioSlice.reducer;
 export const {
   portfolioDeleteCurrency,
   portfolioUpdateCurrency,
-  portfolioReload,
+  reloadPortfolio,
 } = portfolioSlice.actions;
 
 export type ActionType = typeof portfolioSlice.actions;

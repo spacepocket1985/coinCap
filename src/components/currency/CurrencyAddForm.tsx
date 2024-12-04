@@ -6,6 +6,8 @@ import {
   PortfolioCurrencyType,
   portfolioUpdateCurrency,
 } from '../../store/slices/portfolioSlice';
+import { getQueriesFromLS } from '../../utils/localStorageActions';
+import { useGetCurrenciesByIdsQuery } from '../../store/slices/apiSlice';
 
 export const CurrencyAddForm: React.FC<{
   currency: CryptoCurrencyType;
@@ -20,7 +22,25 @@ export const CurrencyAddForm: React.FC<{
     formState: { errors, isValid },
   } = useForm<{ count: string }>();
 
+  const localPortfolio = getQueriesFromLS();
+  const portfolioIds = localPortfolio.map((item) => item.id).join(',');
+  const portfolioIdsForRequest = portfolioIds + `,${currency.id}`;
+
+  const { data: reloadData } = useGetCurrenciesByIdsQuery(
+    portfolioIdsForRequest
+  );
+  console.log('data->', reloadData);
+
   const onSubmit = (data: { count: string }) => {
+    if (reloadData) {
+      const newData = reloadData.data.map((item) => {
+        const portfolioCurrency = localPortfolio.find(
+          (currency) => currency.id === item.id
+        );
+        const newCount = !portfolioCurrency ? Number(data.count) : 0;
+        console.log(newData, newCount);
+      });
+    }
     const count = parseFloat(data.count);
     const total = count * Number(currency.priceUsd);
 

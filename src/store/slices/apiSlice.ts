@@ -3,9 +3,11 @@ import {
   ApiResponseCurrencies,
   ApiResponseCurrency,
   ApiResponseCurrencyHistory,
+  ApiResponsePortfolio,
   CryptoCurrencyType,
 } from '../../components/types/ApiTypes';
 import { currentDateMs, sevenDaysAgoMs } from '../../utils/getUnixTimeStamp';
+import { PortfolioCurrencyType } from './portfolioSlice';
 
 const BaseUrl = 'https://api.coincap.io/v2/assets';
 const BaseLimit = 10;
@@ -47,12 +49,13 @@ export const coinCapApi = createApi({
         return { data: transformData };
       },
     }),
-    getCurrenciesByIds: builder.query<ApiResponseCurrencies, string>({
+    getCurrenciesByIds: builder.query<ApiResponsePortfolio, string>({
       query: (ids) => ({ url: `?ids=${ids}` }),
       transformResponse: (response: ApiResponseCurrencies) => {
-        const transformedCurrencies: CryptoCurrencyType[] = response.data.map(
-          (currency) => transformCurrency(currency)
-        );
+        const transformedCurrencies: PortfolioCurrencyType[] =
+          response.data.map((currency) =>
+            transform2PortfolioCurrency(currency)
+          );
         return { data: transformedCurrencies };
       },
     }),
@@ -69,6 +72,16 @@ const transformCurrency = (currency: CryptoCurrencyType) => ({
   maxSupply: Number(currency.maxSupply).toFixed(3),
   supply: Number(currency.supply).toFixed(3),
   volumeUsd24Hr: Number(currency.volumeUsd24Hr).toFixed(3),
+});
+
+const transform2PortfolioCurrency = (
+  currency: CryptoCurrencyType
+): PortfolioCurrencyType => ({
+  id: currency.id,
+  name: currency.name,
+  priceUsd: Number(Number(currency.priceUsd).toFixed(3)),
+  count: 0,
+  total: 0,
 });
 
 export const {

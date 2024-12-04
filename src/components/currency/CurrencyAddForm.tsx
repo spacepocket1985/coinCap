@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../hooks/storeHooks';
 import {
   PortfolioCurrencyType,
-  updatePortfolioCurrency,
+  portfolioUpdateCurrency,
 } from '../../store/slices/portfolioSlice';
 
 export const CurrencyAddForm: React.FC<{
@@ -32,7 +32,7 @@ export const CurrencyAddForm: React.FC<{
       total: Number(total.toFixed(3)),
     };
 
-    dispatch(updatePortfolioCurrency(currency2Portfolio));
+    dispatch(portfolioUpdateCurrency(currency2Portfolio));
     reset();
     handleClose!();
   };

@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getQueriesFromLS } from '../../utils/localStorageActions';
+import { getTotal } from '../../utils/getTotal';
 
 export type PortfolioCurrencyType = {
   id: string;
@@ -13,15 +15,15 @@ type PortfolioState = {
 };
 
 const initialState: PortfolioState = {
-  portfolioCurrency: [],
-  portfolioTotal: 0,
+  portfolioCurrency: getQueriesFromLS(),
+  portfolioTotal: getTotal(getQueriesFromLS()),
 };
 
 const portfolioSlice = createSlice({
   name: 'portfolio',
   initialState,
   reducers: {
-    updatePortfolioCurrency: (
+    portfolioUpdateCurrency: (
       state,
       action: PayloadAction<PortfolioCurrencyType>
     ) => {
@@ -38,24 +40,30 @@ const portfolioSlice = createSlice({
           total: currencyForUpdate.total + action.payload.total,
         };
       }
-      state.portfolioTotal = state.portfolioCurrency.reduce(
-        (acc, item) => acc + item.total,
-        0
-      );
+      state.portfolioTotal = getTotal(state.portfolioCurrency);
     },
-    deletePortfolioCurrency: (state, action: PayloadAction<string>) => {
+    portfolioDeleteCurrency: (state, action: PayloadAction<string>) => {
       state.portfolioCurrency = state.portfolioCurrency.filter(
         (currency) => currency.id !== action.payload
       );
-      state.portfolioTotal = state.portfolioCurrency.reduce(
-        (acc, item) => acc + item.total,
-        0
-      );
+      state.portfolioTotal = getTotal(state.portfolioCurrency);
+    },
+    portfolioReload: (
+      state,
+      action: PayloadAction<PortfolioCurrencyType[]>
+    ) => {
+      state.portfolioCurrency = action.payload;
+      state.portfolioTotal = getTotal(state.portfolioCurrency);
     },
   },
 });
 
 export default portfolioSlice.reducer;
 
-export const { deletePortfolioCurrency, updatePortfolioCurrency } =
-  portfolioSlice.actions;
+export const {
+  portfolioDeleteCurrency,
+  portfolioUpdateCurrency,
+  portfolioReload,
+} = portfolioSlice.actions;
+
+export type ActionType = typeof portfolioSlice.actions;

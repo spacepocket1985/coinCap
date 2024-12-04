@@ -5,7 +5,7 @@ import {
   ApiResponseCurrencyHistory,
   CryptoCurrencyType,
 } from '../../components/types/ApiTypes';
-import { currentDateMs, sevenDaysAgoMs } from '../../utils/getUnixTimestamp';
+import { currentDateMs, sevenDaysAgoMs } from '../../utils/getUnixTimeStamp';
 
 const BaseUrl = 'https://api.coincap.io/v2/assets';
 const BaseLimit = 10;
@@ -47,6 +47,15 @@ export const coinCapApi = createApi({
         return { data: transformData };
       },
     }),
+    getCurrenciesByIds: builder.query<ApiResponseCurrencies, string>({
+      query: (ids) => ({ url: `?ids=${ids}` }),
+      transformResponse: (response: ApiResponseCurrencies) => {
+        const transformedCurrencies: CryptoCurrencyType[] = response.data.map(
+          (currency) => transformCurrency(currency)
+        );
+        return { data: transformedCurrencies };
+      },
+    }),
   }),
 });
 
@@ -66,4 +75,5 @@ export const {
   useGetCurrenciesListQuery,
   useGetCurrencyQuery,
   useGetCurrencyHistoryQuery,
+  useGetCurrenciesByIdsQuery,
 } = coinCapApi;

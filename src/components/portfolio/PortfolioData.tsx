@@ -3,7 +3,7 @@ import TableCell from '@mui/material/TableCell';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
-import { deletePortfolioCurrency } from '../../store/slices/portfolioSlice';
+import { portfolioDeleteCurrency } from '../../store/slices/portfolioSlice';
 import { TableData } from '../ui/TableData';
 import { TableRow } from '@mui/material';
 
@@ -24,7 +24,7 @@ export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
           <TableCell>{currency.total}</TableCell>
           <TableCell
             sx={{ cursor: 'pointer' }}
-            onClick={() => dispatch(deletePortfolioCurrency(currency.id))}
+            onClick={() => dispatch(portfolioDeleteCurrency(currency.id))}
           >
             <DeleteIcon />
           </TableCell>

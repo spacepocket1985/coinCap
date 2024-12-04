@@ -3,7 +3,7 @@ import { CryptoCurrencyType } from '../types/ApiTypes';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../hooks/storeHooks';
 import {
-  PortfolioCurrencyType,
+
   portfolioUpdateCurrency,
 } from '../../store/slices/portfolioSlice';
 import { getQueriesFromLS } from '../../utils/localStorageActions';
@@ -24,37 +24,37 @@ export const CurrencyAddForm: React.FC<{
 
   const localPortfolio = getQueriesFromLS();
   const portfolioIds = localPortfolio.map((item) => item.id).join(',');
-  const portfolioIdsForRequest = portfolioIds + `,${currency.id}`;
+  const portfolioIdsForRequest = portfolioIds
+    ? portfolioIds + `,${currency.id}`
+    : currency.id;
 
   const { data: reloadData } = useGetCurrenciesByIdsQuery(
     portfolioIdsForRequest
   );
-  console.log('data->', reloadData);
-
+  
   const onSubmit = (data: { count: string }) => {
     if (reloadData) {
-      const newData = reloadData.data.map((item) => {
-        const portfolioCurrency = localPortfolio.find(
-          (currency) => currency.id === item.id
+      const dataForUpdate = reloadData.data.map((item) => {
+        const portfolioIndex = localPortfolio.findIndex(
+          (localCurrency) => localCurrency.id === item.id
         );
-        const newCount = !portfolioCurrency ? Number(data.count) : 0;
-        console.log(newData, newCount);
+        const newCount =
+          portfolioIndex === -1
+            ? Number(data.count)
+            : localPortfolio[portfolioIndex].id === currency.id
+              ? Number(data.count) + localPortfolio[portfolioIndex].count
+              : localPortfolio[portfolioIndex].count;
+        return {
+          ...item,
+          count: newCount,
+          total: Number((item.priceUsd * newCount).toFixed(3)),
+        };
       });
+      
+      dispatch(portfolioUpdateCurrency(dataForUpdate));
+      reset();
+      if (handleClose) handleClose();
     }
-    const count = parseFloat(data.count);
-    const total = count * Number(currency.priceUsd);
-
-    const currency2Portfolio: PortfolioCurrencyType = {
-      id: currency.id,
-      name: currency.name,
-      priceUsd: Number(currency.priceUsd),
-      count: count,
-      total: Number(total.toFixed(3)),
-    };
-
-    dispatch(portfolioUpdateCurrency(currency2Portfolio));
-    reset();
-    handleClose!();
   };
 
   return (

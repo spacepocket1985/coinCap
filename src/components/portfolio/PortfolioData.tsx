@@ -3,9 +3,11 @@ import TableCell from '@mui/material/TableCell';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
-import { portfolioDeleteCurrency } from '../../store/slices/portfolioSlice';
+import { portfolioUpdateCurrency } from '../../store/slices/portfolioSlice';
 import { TableData } from '../ui/TableData';
 import { TableRow } from '@mui/material';
+import { getQueriesFromLS } from '../../utils/localStorageActions';
+import { useGetCurrenciesByIdsQuery } from '../../store/slices/apiSlice';
 
 export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
   const portfolioCurrencies = useAppSelector(
@@ -14,6 +16,28 @@ export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
   const dispatch = useAppDispatch();
   const tableCellHeaders = ['Name', 'Price USD', 'Count', 'Total', 'Delete'];
 
+  const localPortfolio = getQueriesFromLS();
+  const portfolioIds = localPortfolio.map((item) => item.id).join(',');
+
+  const { data: reloadData } = useGetCurrenciesByIdsQuery(
+    portfolioIds
+  );
+  
+  const handleDeleteCurrency = (id: string):void => {
+    if (reloadData) {
+      const filterDataFromAPi = reloadData.data.filter(item=> item.id !== id);
+      const filterDataFromPortfolio = localPortfolio.filter(item=> item.id !== id);
+
+      const dataForUpdate = filterDataFromAPi.map((item,index)=>{
+        const newCount = filterDataFromPortfolio[index].count;
+        return {
+          ...item, count: newCount, total:Number((item.priceUsd*newCount).toFixed(3))
+        }
+      })
+      dispatch(portfolioUpdateCurrency(dataForUpdate))
+      
+    }
+  }
   return (
     <TableData tableCellHeaders={tableCellHeaders}>
       {portfolioCurrencies.map((currency) => (
@@ -24,7 +48,7 @@ export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
           <TableCell>{currency.total}</TableCell>
           <TableCell
             sx={{ cursor: 'pointer' }}
-            onClick={() => dispatch(portfolioDeleteCurrency(currency.id))}
+            onClick={() => handleDeleteCurrency(currency.id)}
           >
             <DeleteIcon />
           </TableCell>

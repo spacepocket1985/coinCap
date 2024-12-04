@@ -6,8 +6,8 @@ import { ModalIcon, ModalWindow } from '../modalWindow/ModalWindow';
 import { PortfolioData } from './PortfolioData';
 
 export const PortfolioInformer: React.FC = () => {
-  const portfolioTotal = useAppSelector(
-    (state) => state.portfolio.portfolioTotal
+  const {portfolioTotal, portfolioDifference} = useAppSelector(
+    (state) => state.portfolio
   );
   // const dispatch = useAppDispatch();
   // const localPortfolio = getQueriesFromLS();
@@ -48,6 +48,7 @@ export const PortfolioInformer: React.FC = () => {
           {'Total'}
         </Typography>
         <Typography variant="subtitle1">{`${portfolioTotal} USD`}</Typography>
+        <Typography variant="subtitle1">{`${portfolioDifference}`}</Typography>
       </Stack>
       <BtnGoMain type={BtnGoMainType.Icon} />
     </Stack>

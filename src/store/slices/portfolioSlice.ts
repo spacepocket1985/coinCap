@@ -12,11 +12,13 @@ export type PortfolioCurrencyType = {
 type PortfolioState = {
   portfolioCurrency: PortfolioCurrencyType[];
   portfolioTotal: number;
+  portfolioDifference: string;
 };
 
 const initialState: PortfolioState = {
   portfolioCurrency: getQueriesFromLS(),
   portfolioTotal: getTotal(getQueriesFromLS()),
+  portfolioDifference: '',
 };
 
 const portfolioSlice = createSlice({
@@ -25,29 +27,13 @@ const portfolioSlice = createSlice({
   reducers: {
     portfolioUpdateCurrency: (
       state,
-      action: PayloadAction<PortfolioCurrencyType>
+      action: PayloadAction<PortfolioCurrencyType[]>
     ) => {
-      const currencyIndex = state.portfolioCurrency.findIndex(
-        (currency) => currency.id === action.payload.id
-      );
-      if (currencyIndex === -1) {
-        state.portfolioCurrency.unshift(action.payload);
-      } else {
-        const currencyForUpdate = state.portfolioCurrency[currencyIndex];
-        state.portfolioCurrency[currencyIndex] = {
-          ...currencyForUpdate,
-          count: currencyForUpdate.count + action.payload.count,
-          total: currencyForUpdate.total + action.payload.total,
-        };
-      }
+      state.portfolioDifference = (getTotal(action.payload) - state.portfolioTotal).toFixed(3)
+      state.portfolioCurrency = action.payload;
       state.portfolioTotal = getTotal(state.portfolioCurrency);
     },
-    portfolioDeleteCurrency: (state, action: PayloadAction<string>) => {
-      state.portfolioCurrency = state.portfolioCurrency.filter(
-        (currency) => currency.id !== action.payload
-      );
-      state.portfolioTotal = getTotal(state.portfolioCurrency);
-    },
+
     reloadPortfolio: (
       state,
       action: PayloadAction<PortfolioCurrencyType[]>
@@ -60,10 +46,7 @@ const portfolioSlice = createSlice({
 
 export default portfolioSlice.reducer;
 
-export const {
-  portfolioDeleteCurrency,
-  portfolioUpdateCurrency,
-  reloadPortfolio,
-} = portfolioSlice.actions;
+export const { portfolioUpdateCurrency, reloadPortfolio } =
+  portfolioSlice.actions;
 
 export type ActionType = typeof portfolioSlice.actions;

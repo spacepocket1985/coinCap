@@ -25,20 +25,57 @@ const portfolioSlice = createSlice({
   name: 'portfolio',
   initialState,
   reducers: {
+    reloadPortfolio: (
+      state,
+      action: PayloadAction<{
+        currencies: PortfolioCurrencyType[];
+        isDifference: boolean;
+      }>
+    ) => {
+      const newTotal = getTotal(action.payload.currencies);
+      const oldTotal = getTotal(state.portfolioCurrency);
+      state.portfolioCurrency = action.payload.currencies;
+      state.portfolioTotal = newTotal;
+
+      if (action.payload.isDifference) {
+        const difference = newTotal - oldTotal;
+
+        let differencePercent = '0.00';
+
+        differencePercent = ((difference / oldTotal) * 100).toFixed(
+          2
+        );
+
+        state.portfolioDifference = `${difference.toFixed(2)} (${differencePercent} %)`;
+      } else {
+        state.portfolioDifference = '';
+      }
+    },
+
     portfolioUpdateCurrency: (
       state,
-      action: PayloadAction<PortfolioCurrencyType[]>
+      action: PayloadAction<PortfolioCurrencyType>
     ) => {
-      state.portfolioDifference = (getTotal(action.payload) - state.portfolioTotal).toFixed(3)
-      state.portfolioCurrency = action.payload;
+      const currencyIndex = state.portfolioCurrency.findIndex(
+        (currency) => currency.id === action.payload.id
+      );
+      if (currencyIndex === -1) {
+        state.portfolioCurrency.unshift(action.payload);
+      } else {
+        const currencyForUpdate = state.portfolioCurrency[currencyIndex];
+        state.portfolioCurrency[currencyIndex] = {
+          ...currencyForUpdate,
+          count: currencyForUpdate.count + action.payload.count,
+          total: currencyForUpdate.total + action.payload.total,
+        };
+      }
       state.portfolioTotal = getTotal(state.portfolioCurrency);
     },
 
-    reloadPortfolio: (
-      state,
-      action: PayloadAction<PortfolioCurrencyType[]>
-    ) => {
-      state.portfolioCurrency = action.payload;
+    portfolioDeleteCurrency: (state, action: PayloadAction<string>) => {
+      state.portfolioCurrency = state.portfolioCurrency.filter(
+        (currency) => currency.id !== action.payload
+      );
       state.portfolioTotal = getTotal(state.portfolioCurrency);
     },
   },
@@ -46,7 +83,10 @@ const portfolioSlice = createSlice({
 
 export default portfolioSlice.reducer;
 
-export const { portfolioUpdateCurrency, reloadPortfolio } =
-  portfolioSlice.actions;
+export const {
+  portfolioUpdateCurrency,
+  reloadPortfolio,
+  portfolioDeleteCurrency,
+} = portfolioSlice.actions;
 
 export type ActionType = typeof portfolioSlice.actions;

@@ -43,7 +43,7 @@ export const coinCapApi = createApi({
       transformResponse: (response: ApiResponseCurrencyHistory) => {
         const transformData = response.data.map((item) => ({
           ...item,
-          priceUsd: Number(item.priceUsd).toFixed(3),
+          priceUsd: Number(item.priceUsd).toFixed(2),
           date: item.date.slice(0, 10),
         }));
         return { data: transformData };
@@ -64,14 +64,14 @@ export const coinCapApi = createApi({
 
 const transformCurrency = (currency: CryptoCurrencyType) => ({
   ...currency,
-  marketCapUsd: (Number(currency.marketCapUsd) / 1e9).toFixed(3),
-  volumeUsd24H: Number(currency.volumeUsd24Hr).toFixed(3),
-  priceUsd: Number(currency.priceUsd).toFixed(3),
-  changePercent24Hr: Number(currency.changePercent24Hr).toFixed(3),
-  vwap24Hr: Number(currency.vwap24Hr).toFixed(3),
-  maxSupply: Number(currency.maxSupply).toFixed(3),
-  supply: Number(currency.supply).toFixed(3),
-  volumeUsd24Hr: Number(currency.volumeUsd24Hr).toFixed(3),
+  marketCapUsd: (Number(currency.marketCapUsd) / 1e9).toFixed(2),
+  volumeUsd24H: Number(currency.volumeUsd24Hr).toFixed(2),
+  priceUsd: Number(currency.priceUsd).toFixed(2),
+  changePercent24Hr: Number(currency.changePercent24Hr).toFixed(2),
+  vwap24Hr: Number(currency.vwap24Hr).toFixed(2),
+  maxSupply: Number(currency.maxSupply).toFixed(2),
+  supply: Number(currency.supply).toFixed(2),
+  volumeUsd24Hr: Number(currency.volumeUsd24Hr).toFixed(2),
 });
 
 const transform2PortfolioCurrency = (
@@ -79,7 +79,7 @@ const transform2PortfolioCurrency = (
 ): PortfolioCurrencyType => ({
   id: currency.id,
   name: currency.name,
-  priceUsd: Number(Number(currency.priceUsd).toFixed(3)),
+  priceUsd: Number(Number(currency.priceUsd).toFixed(2)),
   count: 0,
   total: 0,
 });

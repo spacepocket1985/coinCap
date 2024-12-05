@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { IconButton, Typography } from '@mui/material';
 
 const defaultTop = '35%';
@@ -45,7 +45,9 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = ({
       case ModalIcon.Add:
         return <AddCircleIcon />;
       case ModalIcon.Partfolio:
-        return <WorkOutlineIcon fontSize="large" />;
+        return (<>
+        <BusinessCenterIcon  sx={{fontSize:'4.2rem'}} />
+        </>);
       default:
         return null;
     }

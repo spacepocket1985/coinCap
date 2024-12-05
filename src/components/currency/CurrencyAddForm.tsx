@@ -3,11 +3,9 @@ import { CryptoCurrencyType } from '../types/ApiTypes';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../hooks/storeHooks';
 import {
-
+  PortfolioCurrencyType,
   portfolioUpdateCurrency,
 } from '../../store/slices/portfolioSlice';
-import { getQueriesFromLS } from '../../utils/localStorageActions';
-import { useGetCurrenciesByIdsQuery } from '../../store/slices/apiSlice';
 
 export const CurrencyAddForm: React.FC<{
   currency: CryptoCurrencyType;
@@ -22,39 +20,19 @@ export const CurrencyAddForm: React.FC<{
     formState: { errors, isValid },
   } = useForm<{ count: string }>();
 
-  const localPortfolio = getQueriesFromLS();
-  const portfolioIds = localPortfolio.map((item) => item.id).join(',');
-  const portfolioIdsForRequest = portfolioIds
-    ? portfolioIds + `,${currency.id}`
-    : currency.id;
-
-  const { data: reloadData } = useGetCurrenciesByIdsQuery(
-    portfolioIdsForRequest
-  );
-  
   const onSubmit = (data: { count: string }) => {
-    if (reloadData) {
-      const dataForUpdate = reloadData.data.map((item) => {
-        const portfolioIndex = localPortfolio.findIndex(
-          (localCurrency) => localCurrency.id === item.id
-        );
-        const newCount =
-          portfolioIndex === -1
-            ? Number(data.count)
-            : localPortfolio[portfolioIndex].id === currency.id
-              ? Number(data.count) + localPortfolio[portfolioIndex].count
-              : localPortfolio[portfolioIndex].count;
-        return {
-          ...item,
-          count: newCount,
-          total: Number((item.priceUsd * newCount).toFixed(3)),
-        };
-      });
-      
-      dispatch(portfolioUpdateCurrency(dataForUpdate));
-      reset();
-      if (handleClose) handleClose();
-    }
+    const count = parseFloat(data.count);
+    const total = count * Number(currency.priceUsd);
+    const currency2Portfolio: PortfolioCurrencyType = {
+      id: currency.id,
+      name: currency.name,
+      priceUsd: Number(Number(currency.priceUsd).toFixed(2)),
+      count: count,
+      total: Number(total.toFixed(2)),
+    };
+    dispatch(portfolioUpdateCurrency(currency2Portfolio));
+    reset();
+    if (handleClose) handleClose();
   };
 
   return (

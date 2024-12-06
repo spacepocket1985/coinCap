@@ -28,6 +28,7 @@ type ModalWindowPropsType = {
   iconType: ModalIcon;
   iconLabel?: string;
   iconColor?: string;
+  pageTitle?: string;
 };
 
 export const ModalWindow: React.FC<ModalWindowPropsType> = ({
@@ -35,6 +36,7 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = ({
   iconType,
   iconColor,
   iconLabel,
+  pageTitle,
 }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -70,7 +72,16 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = ({
         </Typography>
       </IconButton>
       <Modal open={open} onClose={handleToggle}>
-        <Box sx={style}>{children!(handleToggle)}</Box>
+        <>
+          <Box sx={style}>
+            <Box>
+              <Typography component={'h5'} variant="h5" sx={{ mb: 1 }}>
+                {pageTitle}
+              </Typography>
+            </Box>
+            {children!(handleToggle)}
+          </Box>
+        </>
       </Modal>
     </>
   );

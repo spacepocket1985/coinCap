@@ -24,9 +24,8 @@ export const CurrencyAddForm: React.FC<{
     const count = parseFloat(data.count);
     const total = count * Number(currency.priceUsd);
     const currency2Portfolio: PortfolioCurrencyType = {
-      id: currency.id,
-      name: currency.name,
-      priceUsd: Number(Number(currency.priceUsd).toFixed(2)),
+      ...currency,
+      priceUsd: Number(currency.priceUsd).toFixed(2),
       count: count,
       total: Number(total.toFixed(2)),
     };

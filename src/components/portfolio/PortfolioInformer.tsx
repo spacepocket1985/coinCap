@@ -74,7 +74,11 @@ export const PortfolioInformer: React.FC = () => {
 
   return (
     <Stack direction="row" spacing={1} alignItems="center">
-      <ModalWindow iconType={ModalIcon.Partfolio} iconColor="#fff">
+      <ModalWindow
+        iconType={ModalIcon.Partfolio}
+        iconColor="#fff"
+        pageTitle="Currency portfolio"
+      >
         {(handleClose) => <PortfolioData handleClose={handleClose} />}
       </ModalWindow>
       <Stack direction="column">

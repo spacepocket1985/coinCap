@@ -36,3 +36,7 @@ export type ApiResponseCurrencyHistory = {
 export type ApiResponsePortfolio = {
   data: PortfolioCurrencyType[];
 };
+
+export type ApiResponseCurrencyPortfolio = {
+  data: PortfolioCurrencyType;
+};

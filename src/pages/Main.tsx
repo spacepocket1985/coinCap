@@ -5,6 +5,9 @@ import { Container } from '@mui/material';
 import { CurrenciesList } from '../components/currency/CurrenciesList';
 import { useGetCurrenciesListQuery } from '../store/slices/apiSlice';
 import { Spinner } from '../components/spinner/Spinner';
+import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
+import { useEffect, useState } from 'react';
+import { toggleRefetch } from '../store/slices/portfolioSlice';
 
 export const Main: React.FC = () => {
   const location = useLocation();
@@ -13,9 +16,24 @@ export const Main: React.FC = () => {
   const page = checkPageNum(pageParam);
 
   const queryOffset = page === 1 ? 0 : page * 10;
-  const { data: currencies, isFetching } = useGetCurrenciesListQuery({
+  const {
+    data: currencies,
+    isFetching,
+    refetch,
+  } = useGetCurrenciesListQuery({
     offset: queryOffset,
   });
+
+  const { shouldRefetch } = useAppSelector((state) => state.portfolio);
+  const dispatch = useAppDispatch();
+  const [isFirstLoading, setIsFirstLoading] = useState(true);
+  useEffect(() => {
+    if (shouldRefetch && !isFirstLoading) {
+      refetch();
+      dispatch(toggleRefetch(false));
+      setIsFirstLoading(false);
+    }
+  }, [dispatch, isFirstLoading, refetch, shouldRefetch]);
 
   const contentOrSpinner = isFetching ? (
     <Spinner />

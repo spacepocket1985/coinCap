@@ -1,11 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getQueriesFromLS } from '../../utils/localStorageActions';
 import { getTotal } from '../../utils/getTotal';
+import { CryptoCurrencyType } from '../../components/types/ApiTypes';
 
-export type PortfolioCurrencyType = {
-  id: string;
-  name: string;
-  priceUsd: number;
+export type PortfolioCurrencyType = CryptoCurrencyType & {
   count: number;
   total: number;
 };
@@ -13,12 +11,14 @@ type PortfolioState = {
   portfolioCurrency: PortfolioCurrencyType[];
   portfolioTotal: number;
   portfolioDifference: string;
+  shouldRefetch: boolean;
 };
 
 const initialState: PortfolioState = {
   portfolioCurrency: getQueriesFromLS(),
   portfolioTotal: getTotal(getQueriesFromLS()),
-  portfolioDifference: '',
+  portfolioDifference: '0.00 (0.00 %)',
+  shouldRefetch: false,
 };
 
 const portfolioSlice = createSlice({
@@ -42,14 +42,13 @@ const portfolioSlice = createSlice({
 
         let differencePercent = '0.00';
 
-        differencePercent = ((difference / oldTotal) * 100).toFixed(
-          2
-        );
+        differencePercent = ((difference / oldTotal) * 100).toFixed(2);
 
         state.portfolioDifference = `${difference.toFixed(2)} (${differencePercent} %)`;
       } else {
-        state.portfolioDifference = '';
+        state.portfolioDifference = '0.00 (0.00 %)';
       }
+      state.shouldRefetch = true;
     },
 
     portfolioUpdateCurrency: (
@@ -78,6 +77,9 @@ const portfolioSlice = createSlice({
       );
       state.portfolioTotal = getTotal(state.portfolioCurrency);
     },
+    toggleRefetch: (state, action: PayloadAction<boolean>) => {
+      state.shouldRefetch = action.payload;
+    },
   },
 });
 
@@ -87,6 +89,7 @@ export const {
   portfolioUpdateCurrency,
   reloadPortfolio,
   portfolioDeleteCurrency,
+  toggleRefetch,
 } = portfolioSlice.actions;
 
 export type ActionType = typeof portfolioSlice.actions;

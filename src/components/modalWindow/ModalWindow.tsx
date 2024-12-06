@@ -45,9 +45,11 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = ({
       case ModalIcon.Add:
         return <AddCircleIcon />;
       case ModalIcon.Partfolio:
-        return (<>
-        <BusinessCenterIcon  sx={{fontSize:'4.2rem'}} />
-        </>);
+        return (
+          <>
+            <BusinessCenterIcon sx={{ fontSize: '4.2rem' }} />
+          </>
+        );
       default:
         return null;
     }

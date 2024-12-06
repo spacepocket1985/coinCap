@@ -3,6 +3,7 @@ import {
   ApiResponseCurrencies,
   ApiResponseCurrency,
   ApiResponseCurrencyHistory,
+  ApiResponseCurrencyPortfolio,
   ApiResponsePortfolio,
   CryptoCurrencyType,
 } from '../../components/types/ApiTypes';
@@ -15,22 +16,50 @@ const BaseLimit = 10;
 export const coinCapApi = createApi({
   reducerPath: 'cryptoCurrencyApi',
   baseQuery: fetchBaseQuery({ baseUrl: BaseUrl }),
+  tagTypes: ['Currency'],
   endpoints: (builder) => ({
     getCurrenciesList: builder.query<
-      ApiResponseCurrencies,
+      ApiResponsePortfolio,
       { limit?: number; offset: number }
     >({
       query: ({ limit, offset }) => ({
         url: `?limit=${limit || BaseLimit}&offset=${offset}`,
       }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({
+                type: 'Currency' as const,
+                id,
+              })),
+              { type: 'Currency', id: 'LIST' },
+            ]
+          : [{ type: 'Currency', id: 'LIST' }],
       transformResponse: (response: ApiResponseCurrencies) => {
-        const transformedCurrencies: CryptoCurrencyType[] = response.data.map(
-          (currency) => transformCurrency(currency)
-        );
+        const transformedCurrencies: PortfolioCurrencyType[] =
+          response.data.map((currency) => transformCurrency(currency));
         return { data: transformedCurrencies };
       },
     }),
-    getCurrency: builder.query<ApiResponseCurrency, string>({
+    getCurrenciesByIds: builder.query<ApiResponsePortfolio, string>({
+      query: (ids) => ({ url: `?ids=${ids}` }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({
+                type: 'Currency' as const,
+                id,
+              })),
+              { type: 'Currency', id: 'LIST' },
+            ]
+          : [{ type: 'Currency', id: 'LIST' }],
+      transformResponse: (response: ApiResponseCurrencies) => {
+        const transformedCurrencies: PortfolioCurrencyType[] =
+          response.data.map((currency) => transformCurrency(currency));
+        return { data: transformedCurrencies };
+      },
+    }),
+    getCurrency: builder.query<ApiResponseCurrencyPortfolio, string>({
       query: (id) => ({ url: `/${id}` }),
       transformResponse: (response: ApiResponseCurrency) => {
         return { data: transformCurrency(response.data) };
@@ -38,7 +67,7 @@ export const coinCapApi = createApi({
     }),
     getCurrencyHistory: builder.query<ApiResponseCurrencyHistory, string>({
       query: (id) => ({
-        url: `${id}/history?interval=d1&start=${currentDateMs}&end=${sevenDaysAgoMs} `,
+        url: `${id}/history?interval=d1&start=${currentDateMs}&end=${sevenDaysAgoMs}`,
       }),
       transformResponse: (response: ApiResponseCurrencyHistory) => {
         const transformData = response.data.map((item) => ({
@@ -47,16 +76,6 @@ export const coinCapApi = createApi({
           date: item.date.slice(0, 10),
         }));
         return { data: transformData };
-      },
-    }),
-    getCurrenciesByIds: builder.query<ApiResponsePortfolio, string>({
-      query: (ids) => ({ url: `?ids=${ids}` }),
-      transformResponse: (response: ApiResponseCurrencies) => {
-        const transformedCurrencies: PortfolioCurrencyType[] =
-          response.data.map((currency) =>
-            transform2PortfolioCurrency(currency)
-          );
-        return { data: transformedCurrencies };
       },
     }),
   }),
@@ -71,15 +90,6 @@ const transformCurrency = (currency: CryptoCurrencyType) => ({
   vwap24Hr: Number(currency.vwap24Hr).toFixed(2),
   maxSupply: Number(currency.maxSupply).toFixed(2),
   supply: Number(currency.supply).toFixed(2),
-  volumeUsd24Hr: Number(currency.volumeUsd24Hr).toFixed(2),
-});
-
-const transform2PortfolioCurrency = (
-  currency: CryptoCurrencyType
-): PortfolioCurrencyType => ({
-  id: currency.id,
-  name: currency.name,
-  priceUsd: Number(Number(currency.priceUsd).toFixed(2)),
   count: 0,
   total: 0,
 });

@@ -1,12 +1,30 @@
 import { Stack, Typography } from '@mui/material';
 import { useGetCurrenciesListQuery } from '../../store/slices/apiSlice';
 import { Spinner } from '../spinner/Spinner';
+import { useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
+import { toggleRefetch } from '../../store/slices/portfolioSlice';
 
 export const PopularCurrencies: React.FC = () => {
-  const { data: currencies, isFetching } = useGetCurrenciesListQuery({
+  const {
+    data: currencies,
+    isFetching,
+    refetch,
+  } = useGetCurrenciesListQuery({
     limit: 3,
     offset: 0,
   });
+
+  const { shouldRefetch } = useAppSelector((state) => state.portfolio);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (shouldRefetch) {
+      refetch();
+      dispatch(toggleRefetch(false));
+    }
+  }, [dispatch, refetch, shouldRefetch]);
+
   const renderCurrencies = (currencies?.data || []).map((currency, index) => (
     <Stack direction={'column'} key={index} sx={{ pb: 1 }}>
       <Typography

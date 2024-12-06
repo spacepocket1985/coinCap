@@ -12,6 +12,7 @@ export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
     (state) => state.portfolio.portfolioCurrency
   );
   const dispatch = useAppDispatch();
+  const { portfolioTotal } = useAppSelector((state) => state.portfolio);
   const tableCellHeaders = ['Name', 'Price USD', 'Count', 'Total', 'Delete'];
 
   const handleDeleteCurrency = (id: string): void => {
@@ -33,6 +34,11 @@ export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
           </TableCell>
         </TableRow>
       ))}
+      <TableRow sx={{ bgcolor: '#ddd7d7' }}>
+        <TableCell colSpan={3}>Subtotal</TableCell>
+        <TableCell sx={{ fontWeight: 600 }}>{portfolioTotal}</TableCell>
+        <TableCell></TableCell>
+      </TableRow>
     </TableData>
   );
 };

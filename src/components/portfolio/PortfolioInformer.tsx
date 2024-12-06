@@ -8,6 +8,7 @@ import { getQueriesFromLS } from '../../utils/localStorageActions';
 import {
   PortfolioCurrencyType,
   reloadPortfolio,
+  toggleRefetch,
 } from '../../store/slices/portfolioSlice';
 import { useGetCurrenciesByIdsQuery } from '../../store/slices/apiSlice';
 
@@ -15,6 +16,7 @@ export const PortfolioInformer: React.FC = () => {
   const { portfolioTotal, portfolioDifference } = useAppSelector(
     (state) => state.portfolio
   );
+
   const dispatch = useAppDispatch();
 
   const portfolioIds = getQueriesFromLS()
@@ -45,31 +47,38 @@ export const PortfolioInformer: React.FC = () => {
             console.log(`Local price for ${item.name}: ${item.priceUsd}`);
           }
 
-          if (priceData && priceData.priceUsd !== item.priceUsd) {
+          if (
+            priceData &&
+            priceData.priceUsd !== item.priceUsd &&
+            item.count !== 0
+          ) {
             isDifference = true;
           }
 
-          const newPrice = priceData
-            ? Number(priceData.priceUsd)
-            : item.priceUsd;
+          const newPrice = priceData ? priceData.priceUsd : item.priceUsd;
 
           return {
             ...item,
             priceUsd: newPrice,
-            total: newPrice * item.count,
+            total: Number(newPrice) * item.count,
           };
         }
       );
 
       if (dataForUpdate.length) {
         dispatch(reloadPortfolio({ currencies: dataForUpdate, isDifference }));
+        dispatch(toggleRefetch(true));
       }
     }
   }, [data, dispatch]);
 
   return (
     <Stack direction="row" spacing={1} alignItems="center">
-      <ModalWindow iconType={ModalIcon.Partfolio} iconColor="#fff">
+      <ModalWindow
+        iconType={ModalIcon.Partfolio}
+        iconColor="#fff"
+        pageTitle="Currency portfolio"
+      >
         {(handleClose) => <PortfolioData handleClose={handleClose} />}
       </ModalWindow>
       <Stack direction="column">

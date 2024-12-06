@@ -6,7 +6,7 @@ import { CurrenciesList } from '../components/currency/CurrenciesList';
 import { useGetCurrenciesListQuery } from '../store/slices/apiSlice';
 import { Spinner } from '../components/spinner/Spinner';
 import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import { toggleRefetch } from '../store/slices/portfolioSlice';
 
 export const Main: React.FC = () => {
@@ -26,14 +26,13 @@ export const Main: React.FC = () => {
 
   const { shouldRefetch } = useAppSelector((state) => state.portfolio);
   const dispatch = useAppDispatch();
-  const [isFirstLoading, setIsFirstLoading] = useState(true);
+
   useEffect(() => {
-    if (shouldRefetch && !isFirstLoading) {
+    if (shouldRefetch) {
       refetch();
       dispatch(toggleRefetch(false));
-      setIsFirstLoading(false);
     }
-  }, [dispatch, isFirstLoading, refetch, shouldRefetch]);
+  }, [dispatch, refetch, shouldRefetch]);
 
   const contentOrSpinner = isFetching ? (
     <Spinner />

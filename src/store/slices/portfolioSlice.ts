@@ -42,9 +42,7 @@ const portfolioSlice = createSlice({
 
         let differencePercent = '0.00';
 
-        differencePercent = ((difference / oldTotal) * 100).toFixed(
-          2
-        );
+        differencePercent = ((difference / oldTotal) * 100).toFixed(2);
 
         state.portfolioDifference = `${difference.toFixed(2)} (${differencePercent} %)`;
       } else {

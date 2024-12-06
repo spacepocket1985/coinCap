@@ -3,11 +3,12 @@ import { PaginationControls } from '../components/paginationControls/PaginationC
 import { checkPageNum } from '../utils/checkPageNum';
 import { Container } from '@mui/material';
 import { CurrenciesList } from '../components/currency/CurrenciesList';
-import { useGetCurrenciesListQuery } from '../store/slices/apiSlice';
+import {
+  coinCapApi,
+  useGetCurrenciesListQuery,
+} from '../store/slices/apiSlice';
 import { Spinner } from '../components/spinner/Spinner';
-import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
-import { useEffect} from 'react';
-import { toggleRefetch } from '../store/slices/portfolioSlice';
+import { useEffect } from 'react';
 
 export const Main: React.FC = () => {
   const location = useLocation();
@@ -16,23 +17,13 @@ export const Main: React.FC = () => {
   const page = checkPageNum(pageParam);
 
   const queryOffset = page === 1 ? 0 : page * 10;
-  const {
-    data: currencies,
-    isFetching,
-    refetch,
-  } = useGetCurrenciesListQuery({
+  const { data: currencies, isFetching } = useGetCurrenciesListQuery({
     offset: queryOffset,
   });
 
-  const { shouldRefetch } = useAppSelector((state) => state.portfolio);
-  const dispatch = useAppDispatch();
-
   useEffect(() => {
-    if (shouldRefetch) {
-      refetch();
-      dispatch(toggleRefetch(false));
-    }
-  }, [dispatch, refetch, shouldRefetch]);
+    coinCapApi.util.invalidateTags(['Currency']);
+  });
 
   const contentOrSpinner = isFetching ? (
     <Spinner />

@@ -61,6 +61,7 @@ export const coinCapApi = createApi({
     }),
     getCurrency: builder.query<ApiResponseCurrencyPortfolio, string>({
       query: (id) => ({ url: `/${id}` }),
+      providesTags: ['Currency'],
       transformResponse: (response: ApiResponseCurrency) => {
         return { data: transformCurrency(response.data) };
       },

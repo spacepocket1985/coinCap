@@ -1,3 +1,5 @@
+import { PortfolioCurrencyType } from '../../store/slices/portfolioSlice';
+
 export type CryptoCurrencyType = {
   id: string;
   rank: string;
@@ -29,4 +31,8 @@ export type ApiResponseCurrency = {
 
 export type ApiResponseCurrencyHistory = {
   data: CurrencyHistory[];
+};
+
+export type ApiResponsePortfolio = {
+  data: PortfolioCurrencyType[];
 };

@@ -1,5 +1,5 @@
 import { AppBar, Container } from '@mui/material';
-import { PortfolioCurrencies } from '../currency/PortfolioCurrencies';
+import { PortfolioInformer } from '../portfolio/PortfolioInformer';
 import { PopularCurrencies } from '../currency/PopularCurrencies';
 
 export const Header: React.FC = () => {
@@ -14,7 +14,7 @@ export const Header: React.FC = () => {
         }}
       >
         <PopularCurrencies />
-        <PortfolioCurrencies />
+        <PortfolioInformer />
       </Container>
     </AppBar>
   );

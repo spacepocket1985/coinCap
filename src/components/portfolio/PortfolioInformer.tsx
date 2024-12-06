@@ -1,0 +1,89 @@
+import { Stack, Typography } from '@mui/material';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
+import { BtnGoMain, BtnGoMainType } from '../ui/BtnGoMain';
+import { ModalIcon, ModalWindow } from '../modalWindow/ModalWindow';
+import { PortfolioData } from './PortfolioData';
+import { getQueriesFromLS } from '../../utils/localStorageActions';
+import {
+  PortfolioCurrencyType,
+  reloadPortfolio,
+} from '../../store/slices/portfolioSlice';
+import { useGetCurrenciesByIdsQuery } from '../../store/slices/apiSlice';
+
+export const PortfolioInformer: React.FC = () => {
+  const { portfolioTotal, portfolioDifference } = useAppSelector(
+    (state) => state.portfolio
+  );
+  const dispatch = useAppDispatch();
+
+  const portfolioIds = getQueriesFromLS()
+    .map((item) => item.id)
+    .join(',');
+  const { data } = useGetCurrenciesByIdsQuery(portfolioIds, {
+    skip: !portfolioIds,
+  });
+
+  useEffect(() => {
+    if (data) {
+      const localPortfolio = getQueriesFromLS();
+      console.log('localPortfolio ', localPortfolio);
+      console.log('hook ', data.data);
+
+      let isDifference = false;
+
+      const dataForUpdate: PortfolioCurrencyType[] = localPortfolio.map(
+        (item) => {
+          const priceData = data.data.find(
+            (currency) => currency.id === item.id
+          );
+
+          if (priceData) {
+            console.log(
+              `Price from API for ${priceData.name}: ${priceData.priceUsd}`
+            );
+            console.log(`Local price for ${item.name}: ${item.priceUsd}`);
+          }
+
+          if (priceData && priceData.priceUsd !== item.priceUsd) {
+            isDifference = true;
+          }
+
+          const newPrice = priceData
+            ? Number(priceData.priceUsd)
+            : item.priceUsd;
+
+          return {
+            ...item,
+            priceUsd: newPrice,
+            total: newPrice * item.count,
+          };
+        }
+      );
+
+      if (dataForUpdate.length) {
+        dispatch(reloadPortfolio({ currencies: dataForUpdate, isDifference }));
+      }
+    }
+  }, [data, dispatch]);
+
+  return (
+    <Stack direction="row" spacing={1} alignItems="center">
+      <ModalWindow iconType={ModalIcon.Partfolio} iconColor="#fff">
+        {(handleClose) => <PortfolioData handleClose={handleClose} />}
+      </ModalWindow>
+      <Stack direction="column">
+        <Typography
+          variant="subtitle1"
+          component="h5"
+          sx={{ color: '#dad1d1' }}
+        >
+          {'Total'}
+        </Typography>
+        <Typography variant="subtitle1">{`${portfolioTotal} USD`}</Typography>
+        <Typography variant="subtitle1">{`${portfolioDifference}`}</Typography>
+      </Stack>
+      <BtnGoMain type={BtnGoMainType.Icon} />
+    </Stack>
+  );
+};

@@ -1,28 +1,38 @@
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import { CryptoCurrencyType } from '../types/ApiTypes';
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useAppDispatch } from '../../hooks/storeHooks';
+import {
+  PortfolioCurrencyType,
+  portfolioUpdateCurrency,
+} from '../../store/slices/portfolioSlice';
 
-export const CurrencyAddForm: React.FC<{ currency: CryptoCurrencyType }> = ({
-  currency,
-}) => {
-  const [count, setCount] = useState<string>('0');
+export const CurrencyAddForm: React.FC<{
+  currency: CryptoCurrencyType;
+  handleClose?: () => void;
+}> = ({ currency, handleClose }) => {
+  const dispatch = useAppDispatch();
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<{ count: string }>();
 
-    if (value === '' || isFinite(Number(value))) {
-      if (value.split('.').length <= 2) {
-        setCount(value);
-      }
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const numericValue = parseFloat(count);
-    if (numericValue > 0) {
-      console.log(`Purchasing ${numericValue} of ${currency.name}`);
-    }
+  const onSubmit = (data: { count: string }) => {
+    const count = parseFloat(data.count);
+    const total = count * Number(currency.priceUsd);
+    const currency2Portfolio: PortfolioCurrencyType = {
+      id: currency.id,
+      name: currency.name,
+      priceUsd: Number(Number(currency.priceUsd).toFixed(2)),
+      count: count,
+      total: Number(total.toFixed(2)),
+    };
+    dispatch(portfolioUpdateCurrency(currency2Portfolio));
+    reset();
+    if (handleClose) handleClose();
   };
 
   return (
@@ -49,7 +59,7 @@ export const CurrencyAddForm: React.FC<{ currency: CryptoCurrencyType }> = ({
         noValidate
         autoComplete="off"
         sx={{ mb: 2 }}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <TextField
           required
@@ -58,16 +68,26 @@ export const CurrencyAddForm: React.FC<{ currency: CryptoCurrencyType }> = ({
           type="text"
           margin="none"
           size="small"
-          value={count}
-          onChange={handleOnChange}
+          {...register('count', {
+            required: 'Quantity is required',
+            validate: {
+              isValidNumber: (value) =>
+                !isNaN(Number(value)) || 'Invalid number',
+              isPositive: (value) =>
+                parseFloat(value) > 0 || 'Quantity must be greater than zero',
+            },
+          })}
+          error={!!errors.count}
+          helperText={errors.count?.message}
         />
         <Button
           variant="contained"
           color="primary"
+          type="submit"
           sx={{ ml: 1, p: 0.9 }}
-          disabled={parseFloat(count) <= 0}
+          disabled={!isValid}
         >
-          {'Buy'}
+          {'Buy currency'}
         </Button>
       </Box>
     </>

@@ -17,9 +17,15 @@ export const Main: React.FC = () => {
   const page = checkPageNum(pageParam);
 
   const queryOffset = page === 1 ? 0 : page * 10;
-  const { data: currencies, isFetching } = useGetCurrenciesListQuery({
+  const {
+    data: currencies,
+    isFetching,
+    isError,
+  } = useGetCurrenciesListQuery({
     offset: queryOffset,
   });
+
+  const errorMsg = 'Error fetching currencies. Please try refreshing';
 
   useEffect(() => {
     coinCapApi.util.invalidateTags(['Currency']);
@@ -44,7 +50,7 @@ export const Main: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        {contentOrSpinner}
+        {isError ? errorMsg : contentOrSpinner}
       </Container>
     </>
   );

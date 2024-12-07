@@ -54,6 +54,7 @@ export const PortfolioInformer: React.FC = () => {
             ...item,
             priceUsd: newPrice,
             total: Number((Number(newPrice) * item.count).toFixed(3)),
+            isChange: isDifference,
           };
         }
       );

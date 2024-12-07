@@ -1,6 +1,7 @@
 import React from 'react';
 import TableCell from '@mui/material/TableCell';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { portfolioDeleteCurrency } from '../../store/slices/portfolioSlice';
@@ -14,7 +15,14 @@ export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
   );
   const dispatch = useAppDispatch();
   const { portfolioTotal } = useAppSelector((state) => state.portfolio);
-  const tableCellHeaders = ['Name', 'Price USD', 'Count', 'Total', 'Delete'];
+  const tableCellHeaders = [
+    'Name',
+    'Price USD',
+    'Price change',
+    'Count',
+    'Total',
+    'Delete',
+  ];
 
   const handleDeleteCurrency = (id: string): void => {
     dispatch(portfolioDeleteCurrency(id));
@@ -27,9 +35,13 @@ export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
             <TableRow key={currency.id}>
               <TableCell>{currency.name}</TableCell>
               <TableCell>{currency.priceUsd}</TableCell>
+              <TableCell align="center">
+                {currency.isChange && <CheckCircleIcon color='primary'/>}
+              </TableCell>
               <TableCell>{currency.count}</TableCell>
               <TableCell>{currency.total}</TableCell>
               <TableCell
+                align="center"
                 sx={{ cursor: 'pointer' }}
                 onClick={() => handleDeleteCurrency(currency.id)}
               >
@@ -38,7 +50,7 @@ export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
             </TableRow>
           ))}
           <TableRow sx={{ bgcolor: '#ddd7d7' }}>
-            <TableCell colSpan={3}>Subtotal</TableCell>
+            <TableCell colSpan={4}>{'Total cost'}</TableCell>
             <TableCell sx={{ fontWeight: 600 }}>{portfolioTotal}</TableCell>
             <TableCell></TableCell>
           </TableRow>

@@ -99,6 +99,7 @@ const transformCurrency = (currency: CryptoCurrencyType) => ({
   supply: Number(currency.supply).toFixed(2),
   count: 0,
   total: 0,
+  isChange: false,
 });
 
 export const {

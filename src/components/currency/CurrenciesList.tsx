@@ -2,6 +2,7 @@ import { CurrencyListItem } from './CurrencyListItem';
 
 import { CryptoCurrencyType } from '../types/ApiTypes';
 import { TableData } from '../ui/TableData';
+import { BaseLimit } from '../../store/slices/apiSlice';
 
 const tableCellHeaders = [
   '№',
@@ -23,7 +24,7 @@ export const CurrenciesList: React.FC<{
       {currencies.map((currency, index) => (
         <CurrencyListItem
           currency={currency}
-          itemNum={pageNum + index}
+          itemNum={BaseLimit * (pageNum - 1) + index + 1}
           key={currency.id}
         />
       ))}

@@ -11,14 +11,12 @@ type PortfolioState = {
   portfolioCurrency: PortfolioCurrencyType[];
   portfolioTotal: number;
   portfolioDifference: string;
-  shouldRefetch: boolean;
 };
 
 const initialState: PortfolioState = {
   portfolioCurrency: getQueriesFromLS(),
   portfolioTotal: getTotal(getQueriesFromLS()),
   portfolioDifference: '0.00 (0.00 %)',
-  shouldRefetch: false,
 };
 
 const portfolioSlice = createSlice({
@@ -48,7 +46,6 @@ const portfolioSlice = createSlice({
       } else {
         state.portfolioDifference = '0.00 (0.00 %)';
       }
-      state.shouldRefetch = true;
     },
 
     portfolioUpdateCurrency: (
@@ -76,9 +73,8 @@ const portfolioSlice = createSlice({
         (currency) => currency.id !== action.payload
       );
       state.portfolioTotal = getTotal(state.portfolioCurrency);
-    },
-    toggleRefetch: (state, action: PayloadAction<boolean>) => {
-      state.shouldRefetch = action.payload;
+      if (state.portfolioCurrency.length === 0)
+        state.portfolioDifference = '0.00 (0.00 %)';
     },
   },
 });
@@ -89,7 +85,6 @@ export const {
   portfolioUpdateCurrency,
   reloadPortfolio,
   portfolioDeleteCurrency,
-  toggleRefetch,
 } = portfolioSlice.actions;
 
 export type ActionType = typeof portfolioSlice.actions;

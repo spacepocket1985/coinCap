@@ -20,6 +20,9 @@ export const CurrencyListItem: React.FC<{
       sx={{
         '&:last-child td, &:last-child th': { border: 0 },
         cursor: 'pointer',
+        '&:hover': {
+          backgroundColor: '#f5f5f5',
+        },
       }}
       onClick={() => {
         handleOnClick(currency.id);
@@ -39,7 +42,7 @@ export const CurrencyListItem: React.FC<{
           event.stopPropagation();
         }}
       >
-        <ModalWindow iconType={ModalIcon.Add}>
+        <ModalWindow iconType={ModalIcon.Add} pageTitle={'Buy some currency'}>
           {(handleClose) => (
             <CurrencyAddForm handleClose={handleClose} currency={currency} />
           )}

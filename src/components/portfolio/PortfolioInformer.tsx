@@ -8,9 +8,11 @@ import { getQueriesFromLS } from '../../utils/localStorageActions';
 import {
   PortfolioCurrencyType,
   reloadPortfolio,
-  toggleRefetch,
 } from '../../store/slices/portfolioSlice';
-import { useGetCurrenciesByIdsQuery } from '../../store/slices/apiSlice';
+import {
+  coinCapApi,
+  useGetCurrenciesByIdsQuery,
+} from '../../store/slices/apiSlice';
 
 export const PortfolioInformer: React.FC = () => {
   const { portfolioTotal, portfolioDifference } = useAppSelector(
@@ -29,8 +31,6 @@ export const PortfolioInformer: React.FC = () => {
   useEffect(() => {
     if (data) {
       const localPortfolio = getQueriesFromLS();
-      console.log('localPortfolio ', localPortfolio);
-      console.log('hook ', data.data);
 
       let isDifference = false;
 
@@ -39,13 +39,6 @@ export const PortfolioInformer: React.FC = () => {
           const priceData = data.data.find(
             (currency) => currency.id === item.id
           );
-
-          if (priceData) {
-            console.log(
-              `Price from API for ${priceData.name}: ${priceData.priceUsd}`
-            );
-            console.log(`Local price for ${item.name}: ${item.priceUsd}`);
-          }
 
           if (
             priceData &&
@@ -60,14 +53,14 @@ export const PortfolioInformer: React.FC = () => {
           return {
             ...item,
             priceUsd: newPrice,
-            total: Number(newPrice) * item.count,
+            total: Number((Number(newPrice) * item.count).toFixed(3)),
           };
         }
       );
 
       if (dataForUpdate.length) {
         dispatch(reloadPortfolio({ currencies: dataForUpdate, isDifference }));
-        dispatch(toggleRefetch(true));
+        dispatch(coinCapApi.util.invalidateTags(['Currency']));
       }
     }
   }, [data, dispatch]);

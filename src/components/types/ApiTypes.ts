@@ -1,5 +1,9 @@
 import { PortfolioCurrencyType } from '../../store/slices/portfolioSlice';
 
+export type ApiResponse<T> = {
+  data: T;
+};
+
 export type CryptoCurrencyType = {
   id: string;
   rank: string;
@@ -21,22 +25,8 @@ export type CurrencyHistory = {
   date: string;
 };
 
-export type ApiResponseCurrencies = {
-  data: CryptoCurrencyType[];
-};
-
-export type ApiResponseCurrency = {
-  data: CryptoCurrencyType;
-};
-
-export type ApiResponseCurrencyHistory = {
-  data: CurrencyHistory[];
-};
-
-export type ApiResponsePortfolio = {
-  data: PortfolioCurrencyType[];
-};
-
-export type ApiResponseCurrencyPortfolio = {
-  data: PortfolioCurrencyType;
-};
+export type ApiResponseCurrencies = ApiResponse<CryptoCurrencyType[]>;
+export type ApiResponseCurrency = ApiResponse<CryptoCurrencyType>;
+export type ApiResponseCurrencyHistory = ApiResponse<CurrencyHistory[]>;
+export type ApiResponsePortfolio = ApiResponse<PortfolioCurrencyType[]>;
+export type ApiResponseCurrencyPortfolio = ApiResponse<PortfolioCurrencyType>;

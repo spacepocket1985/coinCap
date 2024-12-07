@@ -11,7 +11,7 @@ import { currentDateMs, sevenDaysAgoMs } from '../../utils/getUnixTimeStamp';
 import { PortfolioCurrencyType } from './portfolioSlice';
 
 const BaseUrl = 'https://api.coincap.io/v2/assets';
-const BaseLimit = 10;
+export const BaseLimit = 10;
 
 export const coinCapApi = createApi({
   reducerPath: 'cryptoCurrencyApi',
@@ -61,6 +61,13 @@ export const coinCapApi = createApi({
     }),
     getCurrency: builder.query<ApiResponseCurrencyPortfolio, string>({
       query: (id) => ({ url: `/${id}` }),
+      providesTags: (result, _error, id) =>
+        result
+          ? [
+              { type: 'Currency', id },
+              { type: 'Currency', id: 'LIST' },
+            ]
+          : [{ type: 'Currency', id: 'LIST' }],
       transformResponse: (response: ApiResponseCurrency) => {
         return { data: transformCurrency(response.data) };
       },

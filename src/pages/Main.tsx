@@ -3,11 +3,12 @@ import { PaginationControls } from '../components/paginationControls/PaginationC
 import { checkPageNum } from '../utils/checkPageNum';
 import { Container } from '@mui/material';
 import { CurrenciesList } from '../components/currency/CurrenciesList';
-import { useGetCurrenciesListQuery } from '../store/slices/apiSlice';
+import {
+  coinCapApi,
+  useGetCurrenciesListQuery,
+} from '../store/slices/apiSlice';
 import { Spinner } from '../components/spinner/Spinner';
-import { useAppDispatch, useAppSelector } from '../hooks/storeHooks';
-import { useEffect, useState } from 'react';
-import { toggleRefetch } from '../store/slices/portfolioSlice';
+import { useEffect } from 'react';
 
 export const Main: React.FC = () => {
   const location = useLocation();
@@ -19,21 +20,16 @@ export const Main: React.FC = () => {
   const {
     data: currencies,
     isFetching,
-    refetch,
+    isError,
   } = useGetCurrenciesListQuery({
     offset: queryOffset,
   });
 
-  const { shouldRefetch } = useAppSelector((state) => state.portfolio);
-  const dispatch = useAppDispatch();
-  const [isFirstLoading, setIsFirstLoading] = useState(true);
+  const errorMsg = 'Error fetching currencies. Please try refreshing';
+
   useEffect(() => {
-    if (shouldRefetch && !isFirstLoading) {
-      refetch();
-      dispatch(toggleRefetch(false));
-      setIsFirstLoading(false);
-    }
-  }, [dispatch, isFirstLoading, refetch, shouldRefetch]);
+    coinCapApi.util.invalidateTags(['Currency']);
+  });
 
   const contentOrSpinner = isFetching ? (
     <Spinner />
@@ -54,7 +50,7 @@ export const Main: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        {contentOrSpinner}
+        {isError ? errorMsg : contentOrSpinner}
       </Container>
     </>
   );

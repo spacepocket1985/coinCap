@@ -31,8 +31,6 @@ export const PortfolioInformer: React.FC = () => {
   useEffect(() => {
     if (data) {
       const localPortfolio = getQueriesFromLS();
-      console.log('localPortfolio ', localPortfolio);
-      console.log('hook ', data.data);
 
       let isDifference = false;
 
@@ -41,13 +39,6 @@ export const PortfolioInformer: React.FC = () => {
           const priceData = data.data.find(
             (currency) => currency.id === item.id
           );
-
-          if (priceData) {
-            console.log(
-              `Price from API for ${priceData.name}: ${priceData.priceUsd}`
-            );
-            console.log(`Local price for ${item.name}: ${item.priceUsd}`);
-          }
 
           if (
             priceData &&

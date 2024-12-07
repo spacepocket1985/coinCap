@@ -29,7 +29,7 @@ export const CurrencyListItem: React.FC<{
       }}
     >
       <TableCell>{itemNum}</TableCell>
-      <TableCell sx={{ color: '#1976d2' }}>{currency.symbol}</TableCell>
+      <TableCell  sx={{ color: '#1976d2' }}>{currency.symbol}</TableCell>
       <TableCell>{currency.name}</TableCell>
       <TableCell>{currency.vwap24Hr}</TableCell>
       <TableCell sx={{ color: currencyChangeColor }}>

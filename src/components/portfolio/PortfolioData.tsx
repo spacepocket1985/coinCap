@@ -5,7 +5,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { portfolioDeleteCurrency } from '../../store/slices/portfolioSlice';
 import { TableData } from '../ui/TableData';
-import { TableRow } from '@mui/material';
+import { TableRow} from '@mui/material';
+import { SubTitle } from '../ui/SubTitle';
 
 export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
   const portfolioCurrencies = useAppSelector(
@@ -19,7 +20,8 @@ export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
     dispatch(portfolioDeleteCurrency(id));
   };
   return (
-    <TableData tableCellHeaders={tableCellHeaders}>
+
+    <>{portfolioCurrencies.length>0 ? (    <TableData tableCellHeaders={tableCellHeaders}>
       {portfolioCurrencies.map((currency) => (
         <TableRow key={currency.id}>
           <TableCell>{currency.name}</TableCell>
@@ -39,6 +41,6 @@ export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
         <TableCell sx={{ fontWeight: 600 }}>{portfolioTotal}</TableCell>
         <TableCell></TableCell>
       </TableRow>
-    </TableData>
+    </TableData>):<SubTitle titleText='Your portfolio is empty! Time to buy something)'></SubTitle>}</>
   );
 };

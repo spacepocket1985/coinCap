@@ -2,7 +2,6 @@ import { Stack, Typography } from '@mui/material';
 import { useGetCurrenciesListQuery } from '../../store/slices/apiSlice';
 import { Spinner } from '../spinner/Spinner';
 
-
 export const PopularCurrencies: React.FC = () => {
   const { data: currencies, isFetching } = useGetCurrenciesListQuery({
     limit: 3,

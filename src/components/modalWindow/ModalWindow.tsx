@@ -75,7 +75,7 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = ({
       <Modal open={open} onClose={handleToggle}>
         <>
           <Box sx={style}>
-            <SubTitle titleText={pageTitle || ''}/>
+            <SubTitle titleText={pageTitle || ''} />
             {children!(handleToggle)}
           </Box>
         </>

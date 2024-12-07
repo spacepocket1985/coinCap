@@ -4,6 +4,7 @@ import Modal from '@mui/material/Modal';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { IconButton, Typography } from '@mui/material';
+import { SubTitle } from '../ui/SubTitle';
 
 const defaultTop = '35%';
 
@@ -74,11 +75,7 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = ({
       <Modal open={open} onClose={handleToggle}>
         <>
           <Box sx={style}>
-            <Box>
-              <Typography component={'h5'} variant="h5" sx={{ mb: 1 }}>
-                {pageTitle}
-              </Typography>
-            </Box>
+            <SubTitle titleText={pageTitle || ''}/>
             {children!(handleToggle)}
           </Box>
         </>

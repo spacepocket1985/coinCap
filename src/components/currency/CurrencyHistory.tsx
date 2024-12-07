@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import {
   ResponsiveContainer,
   LineChart,
@@ -10,6 +9,7 @@ import {
 } from 'recharts';
 import { useGetCurrencyHistoryQuery } from '../../store/slices/apiSlice';
 import { Spinner } from '../spinner/Spinner';
+import { SubTitle } from '../ui/SubTitle';
 
 export const CurrencyHistory: React.FC<{ currencyId: string }> = ({
   currencyId,
@@ -41,20 +41,8 @@ export const CurrencyHistory: React.FC<{ currencyId: string }> = ({
   const contentOrSpinner = isFetching ? <Spinner /> : content;
   return (
     <>
-      <Typography
-        component={'div'}
-        variant="subtitle1"
-        sx={{
-          mb: 1,
-          p: 0.6,
-          bgcolor: '#1976d2',
-          color: '#fff',
-          mr: 'auto',
-          borderRadius: 1,
-        }}
-      >
-        Price change chart for the last 30 days
-      </Typography>
+      <SubTitle titleText={'Price change chart for the last 30 days'} />
+
       {contentOrSpinner}
     </>
   );

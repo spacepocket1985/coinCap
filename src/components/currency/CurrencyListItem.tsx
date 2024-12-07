@@ -39,7 +39,7 @@ export const CurrencyListItem: React.FC<{
           event.stopPropagation();
         }}
       >
-        <ModalWindow iconType={ModalIcon.Add}>
+        <ModalWindow iconType={ModalIcon.Add} pageTitle={'Buy some currency'}>
           {(handleClose) => (
             <CurrencyAddForm handleClose={handleClose} currency={currency} />
           )}

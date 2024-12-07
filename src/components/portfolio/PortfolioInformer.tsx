@@ -8,9 +8,11 @@ import { getQueriesFromLS } from '../../utils/localStorageActions';
 import {
   PortfolioCurrencyType,
   reloadPortfolio,
-
 } from '../../store/slices/portfolioSlice';
-import { coinCapApi, useGetCurrenciesByIdsQuery } from '../../store/slices/apiSlice';
+import {
+  coinCapApi,
+  useGetCurrenciesByIdsQuery,
+} from '../../store/slices/apiSlice';
 
 export const PortfolioInformer: React.FC = () => {
   const { portfolioTotal, portfolioDifference } = useAppSelector(
@@ -25,7 +27,6 @@ export const PortfolioInformer: React.FC = () => {
   const { data } = useGetCurrenciesByIdsQuery(portfolioIds, {
     skip: !portfolioIds,
   });
-
 
   useEffect(() => {
     if (data) {
@@ -61,15 +62,14 @@ export const PortfolioInformer: React.FC = () => {
           return {
             ...item,
             priceUsd: newPrice,
-            total: Number(newPrice) * item.count,
+            total: Number((Number(newPrice) * item.count).toFixed(3)),
           };
         }
       );
 
       if (dataForUpdate.length) {
         dispatch(reloadPortfolio({ currencies: dataForUpdate, isDifference }));
-
-        dispatch(coinCapApi.util.invalidateTags(['Currency']))
+        dispatch(coinCapApi.util.invalidateTags(['Currency']));
       }
     }
   }, [data, dispatch]);

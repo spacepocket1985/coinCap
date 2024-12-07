@@ -73,6 +73,8 @@ const portfolioSlice = createSlice({
         (currency) => currency.id !== action.payload
       );
       state.portfolioTotal = getTotal(state.portfolioCurrency);
+      if (state.portfolioCurrency.length === 0)
+        state.portfolioDifference = '0.00 (0.00 %)';
     },
   },
 });

@@ -1,8 +1,11 @@
 import { TableRow, TableCell, Link } from '@mui/material';
-import { CryptoCurrencyType } from '../types/ApiTypes';
+import {
+  CryptoCurrencyHistoryType,
+  CryptoCurrencyType,
+} from '../types/ApiTypes';
 import { TableData } from '../ui/TableData';
 
-const cryptoCurrency: CryptoCurrencyType = {
+const cryptoCurrency: CryptoCurrencyHistoryType = {
   id: 'Unique identifier',
   rank: 'Market capitalization rank',
   symbol: 'Trading symbol (e.g., BTC)',
@@ -27,15 +30,17 @@ export const CurrencyPageItem: React.FC<{ currency: CryptoCurrencyType }> = ({
         {description === cryptoCurrency.explorer ? (
           <TableCell>
             <Link
-              href={currency[key as keyof CryptoCurrencyType]}
+              href={currency[key as keyof CryptoCurrencyHistoryType]}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {currency[key as keyof CryptoCurrencyType]}
+              {currency[key as keyof CryptoCurrencyHistoryType]}
             </Link>
           </TableCell>
         ) : (
-          <TableCell>{currency[key as keyof CryptoCurrencyType]}</TableCell>
+          <TableCell>
+            {currency[key as keyof CryptoCurrencyHistoryType]}
+          </TableCell>
         )}
       </TableRow>
     )

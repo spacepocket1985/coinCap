@@ -27,6 +27,21 @@ export type CurrencyHistory = {
   date: string;
 };
 
+export type CryptoCurrencyHistoryType = {
+  id: string;
+  rank: string;
+  symbol: string;
+  name: string;
+  supply: string;
+  maxSupply: string;
+  marketCapUsd: string;
+  volumeUsd24Hr: string;
+  priceUsd: string;
+  changePercent24Hr: string;
+  vwap24Hr: string;
+  explorer: string;
+};
+
 export type ApiResponseCurrencies = ApiResponse<CryptoCurrencyType[]>;
 export type ApiResponseCurrency = ApiResponse<CryptoCurrencyType>;
 export type ApiResponseCurrencyHistory = ApiResponse<CurrencyHistory[]>;

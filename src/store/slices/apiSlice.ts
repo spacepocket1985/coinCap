@@ -7,7 +7,7 @@ import {
   ApiResponsePortfolio,
   CryptoCurrencyType,
 } from '../../components/types/ApiTypes';
-import { currentDateMs, sevenDaysAgoMs } from '../../utils/getUnixTimeStamp';
+import { currentDateMs, thirtyDaysAgoMs } from '../../utils/getUnixTimeStamp';
 import { PortfolioCurrencyType } from './portfolioSlice';
 
 const BaseUrl = 'https://api.coincap.io/v2/assets';
@@ -74,7 +74,7 @@ export const coinCapApi = createApi({
     }),
     getCurrencyHistory: builder.query<ApiResponseCurrencyHistory, string>({
       query: (id) => ({
-        url: `${id}/history?interval=d1&start=${currentDateMs}&end=${sevenDaysAgoMs}`,
+        url: `${id}/history?interval=d1&start=${currentDateMs}&end=${thirtyDaysAgoMs}`,
       }),
       transformResponse: (response: ApiResponseCurrencyHistory) => {
         const transformData = response.data.map((item) => ({

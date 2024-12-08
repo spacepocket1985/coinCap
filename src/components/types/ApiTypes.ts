@@ -17,12 +17,29 @@ export type CryptoCurrencyType = {
   changePercent24Hr: string;
   vwap24Hr: string;
   explorer: string;
+  isChange: boolean;
+  firstAddition: boolean;
 };
 
 export type CurrencyHistory = {
   priceUsd: string;
   time: number;
   date: string;
+};
+
+export type CryptoCurrencyHistoryType = {
+  id: string;
+  rank: string;
+  symbol: string;
+  name: string;
+  supply: string;
+  maxSupply: string;
+  marketCapUsd: string;
+  volumeUsd24Hr: string;
+  priceUsd: string;
+  changePercent24Hr: string;
+  vwap24Hr: string;
+  explorer: string;
 };
 
 export type ApiResponseCurrencies = ApiResponse<CryptoCurrencyType[]>;

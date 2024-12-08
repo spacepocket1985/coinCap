@@ -1,7 +1,7 @@
 const currentDate = new Date();
 
-const sevenDaysAgo = new Date(currentDate);
-sevenDaysAgo.setDate(currentDate.getDate() - 31);
+const thirtyDaysAgo = new Date(currentDate);
+thirtyDaysAgo.setDate(currentDate.getDate() - 31);
 
-export const currentDateMs = sevenDaysAgo.getTime();
-export const sevenDaysAgoMs = currentDate.getTime();
+export const currentDateMs = thirtyDaysAgo.getTime();
+export const thirtyDaysAgoMs = currentDate.getTime();

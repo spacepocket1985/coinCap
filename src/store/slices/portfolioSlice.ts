@@ -13,17 +13,19 @@ type PortfolioState = {
   portfolioDifference: string;
 };
 
+const DefaultPortfolioDifference = '0.000 (0.000 %)';
+
 const initialState: PortfolioState = {
   portfolioCurrency: getQueriesFromLS(),
   portfolioTotal: getTotal(getQueriesFromLS()),
-  portfolioDifference: '0.00 (0.00 %)',
+  portfolioDifference: DefaultPortfolioDifference,
 };
 
 const portfolioSlice = createSlice({
   name: 'portfolio',
   initialState,
   reducers: {
-    reloadPortfolio: (
+    portfolioReload: (
       state,
       action: PayloadAction<{
         currencies: PortfolioCurrencyType[];
@@ -36,15 +38,13 @@ const portfolioSlice = createSlice({
       state.portfolioTotal = newTotal;
 
       if (action.payload.isDifference) {
-        const difference = newTotal - oldTotal;
+        if (newTotal - oldTotal !== 0) {
+          const difference = newTotal - oldTotal;
 
-        let differencePercent = '0.00';
+          const differencePercent = ((difference / oldTotal) * 100).toFixed(3);
 
-        differencePercent = ((difference / oldTotal) * 100).toFixed(2);
-
-        state.portfolioDifference = `${difference.toFixed(2)} (${differencePercent} %)`;
-      } else {
-        state.portfolioDifference = '0.00 (0.00 %)';
+          state.portfolioDifference = `${difference.toFixed(3)} (${differencePercent} %)`;
+        }
       }
     },
 
@@ -63,6 +63,7 @@ const portfolioSlice = createSlice({
           ...currencyForUpdate,
           count: currencyForUpdate.count + action.payload.count,
           total: currencyForUpdate.total + action.payload.total,
+          firstAddition: false,
         };
       }
       state.portfolioTotal = getTotal(state.portfolioCurrency);
@@ -74,7 +75,9 @@ const portfolioSlice = createSlice({
       );
       state.portfolioTotal = getTotal(state.portfolioCurrency);
       if (state.portfolioCurrency.length === 0)
-        state.portfolioDifference = '0.00 (0.00 %)';
+        state.portfolioDifference = DefaultPortfolioDifference;
+      if (state.portfolioCurrency.every((item) => !item.isChange))
+        state.portfolioDifference = DefaultPortfolioDifference;
     },
   },
 });
@@ -83,7 +86,7 @@ export default portfolioSlice.reducer;
 
 export const {
   portfolioUpdateCurrency,
-  reloadPortfolio,
+  portfolioReload,
   portfolioDeleteCurrency,
 } = portfolioSlice.actions;
 

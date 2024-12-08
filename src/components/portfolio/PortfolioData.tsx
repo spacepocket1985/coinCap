@@ -36,7 +36,7 @@ export const PortfolioData: React.FC<{ handleClose?: () => void }> = () => {
               <TableCell>{currency.name}</TableCell>
               <TableCell>{currency.priceUsd}</TableCell>
               <TableCell align="center">
-                {currency.isChange && <CheckCircleIcon color='primary'/>}
+                {currency.isChange && <CheckCircleIcon color="primary" />}
               </TableCell>
               <TableCell>{currency.count}</TableCell>
               <TableCell>{currency.total}</TableCell>

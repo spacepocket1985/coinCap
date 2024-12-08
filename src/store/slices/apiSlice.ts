@@ -100,6 +100,7 @@ const transformCurrency = (currency: CryptoCurrencyType) => ({
   count: 0,
   total: 0,
   isChange: false,
+  firstAddition: true,
 });
 
 export const {

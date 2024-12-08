@@ -18,6 +18,7 @@ export type CryptoCurrencyType = {
   vwap24Hr: string;
   explorer: string;
   isChange: boolean;
+  firstAddition: boolean;
 };
 
 export type CurrencyHistory = {

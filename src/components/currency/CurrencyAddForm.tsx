@@ -28,6 +28,7 @@ export const CurrencyAddForm: React.FC<{
       priceUsd: Number(currency.priceUsd).toFixed(2),
       count: count,
       total: Number(total.toFixed(2)),
+      initialPrice: Number(currency.priceUsd),
     };
     dispatch(portfolioUpdateCurrency(currency2Portfolio));
     reset();

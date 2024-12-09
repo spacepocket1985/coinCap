@@ -7,7 +7,7 @@ import { CurrencyAddForm } from '../components/currency/CurrencyAddForm';
 import { CurrencyHistory } from '../components/currency/CurrencyHistory';
 import { BtnGoMain, BtnGoMainType } from '../components/ui/BtnGoMain';
 
-export const Currency: React.FC = () => {
+const Currency: React.FC = () => {
   const { currencyId } = useParams();
   const { data: currency, isFetching: isFetchingCurrency } =
     useGetCurrencyQuery(String(currencyId));
@@ -40,3 +40,5 @@ export const Currency: React.FC = () => {
     </Container>
   );
 };
+
+export default Currency;

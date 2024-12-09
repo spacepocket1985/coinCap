@@ -1,16 +1,19 @@
-import { Currency } from '../pages/Currency';
-import { Main } from '../pages/Main';
+import { lazy } from 'react';
+
 import { NotFound } from '../pages/NotFound';
 import { RoutePaths } from './routePaths';
+
+const LazyMain = lazy(() => import('../pages/Main'));
+const LazyCurrency = lazy(() => import('../pages/Currency'));
 
 export const publicRoutes = [
   {
     path: RoutePaths.Main,
-    Page: Main,
+    Page: LazyMain,
   },
   {
     path: RoutePaths.Currency,
-    Page: Currency,
+    Page: LazyCurrency,
   },
 
   {

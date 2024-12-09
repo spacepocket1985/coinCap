@@ -10,7 +10,7 @@ import {
 import { Spinner } from '../components/spinner/Spinner';
 import { useEffect } from 'react';
 
-export const Main: React.FC = () => {
+const Main: React.FC = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const pageParam = query.get('page');
@@ -55,3 +55,5 @@ export const Main: React.FC = () => {
     </>
   );
 };
+
+export default Main;

@@ -3,12 +3,8 @@ import { PaginationControls } from '../components/paginationControls/PaginationC
 import { checkPageNum } from '../utils/checkPageNum';
 import { Container } from '@mui/material';
 import { CurrenciesList } from '../components/currency/CurrenciesList';
-import {
-  coinCapApi,
-  useGetCurrenciesListQuery,
-} from '../store/slices/apiSlice';
+import { useGetCurrenciesListQuery } from '../store/slices/apiSlice';
 import { Spinner } from '../components/spinner/Spinner';
-import { useEffect } from 'react';
 
 const Main: React.FC = () => {
   const location = useLocation();
@@ -26,10 +22,6 @@ const Main: React.FC = () => {
   });
 
   const errorMsg = 'Error fetching currencies. Please try refreshing';
-
-  useEffect(() => {
-    coinCapApi.util.invalidateTags(['Currency']);
-  });
 
   const contentOrSpinner = isFetching ? (
     <Spinner />

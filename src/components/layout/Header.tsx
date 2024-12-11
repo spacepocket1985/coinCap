@@ -9,13 +9,16 @@ import { coinCapApi } from '../../store/slices/apiSlice';
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const [isFirstLoading, setIsFirstLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
   useEffect(() => {
-    if (!isFirstLoading) {
+    if (!isInitialLoad) {
       dispatch(coinCapApi.util.invalidateTags(['Currency']));
-      setIsFirstLoading(false);
+    } else {
+      setIsInitialLoad(false);
     }
-  }, [dispatch, isFirstLoading, location]);
+  }, [dispatch, location, isInitialLoad]);
+
   return (
     <AppBar position="static">
       <Container

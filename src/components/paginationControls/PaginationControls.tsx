@@ -11,7 +11,10 @@ export const PaginationControls: React.FC<{
 }> = ({ currentPage }) => {
   const navigate = useNavigate();
 
-  const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = async (
+    _event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
     navigate(`${RoutePaths.Main}?page=${value}`);
   };
 

@@ -15,8 +15,8 @@ type PortfolioState = {
   portfolioTotal: number;
   portfolioDifference: string;
 };
-
-const DefaultPortfolioDifference = '0.000 (0.000 %)';
+export const DefaultAmount = '0.000';
+const DefaultPortfolioDifference = `${DefaultAmount} (${DefaultAmount}%)`;
 
 const initialState: PortfolioState = {
   portfolioCurrency: getQueriesFromLS(),
@@ -46,7 +46,7 @@ const portfolioSlice = createSlice({
         const difference = newTotal - oldTotal;
 
         const differencePercent =
-          oldTotal !== 0 ? ((difference / oldTotal) * 100).toFixed(3) : '0.000';
+          oldTotal !== 0 ? ((difference / oldTotal) * 100).toFixed(3) : DefaultAmount;
         state.portfolioDifference = `${difference.toFixed(3)} (${differencePercent} %)`;
       }
     },
@@ -94,7 +94,7 @@ const portfolioSlice = createSlice({
       const differencePercent =
         currentTotal !== 0
           ? ((difference / currentTotal) * 100).toFixed(3)
-          : '0.000';
+          : DefaultAmount;
 
       if (
         state.portfolioCurrency.length === 0 ||
